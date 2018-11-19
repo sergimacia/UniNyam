@@ -2,4 +2,12 @@
     <string name="app_name">UniNyam</string>
     <string name="salutacio">Hola!</string>
     <string name="pregunta">Què et ve de gust avui?</string>
+    <string name="tria_ingredients">Tria els ingredients</string>
+    <string name="enciam">Enciam</string>
+    <string name="tomaquet">Tomàquet</string>
+    <string name="ketchup">Ketchup</string>
+    <string name="dia_recollida">Dia de recollida:</string>
+    <string name="hora_recollida_view">Hora de recollida:</string>
+    <string name="finalitzar">Finalitzar comanda</string>
+
 </resources>
