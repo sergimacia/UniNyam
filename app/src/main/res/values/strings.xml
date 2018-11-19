@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">UniNyam</string>
+    <string name="salutacio">Hola!</string>
+    <string name="pregunta">Què et ve de gust avui?</string>
 </resources>
