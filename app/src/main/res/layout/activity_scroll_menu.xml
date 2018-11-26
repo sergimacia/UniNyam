@@ -15,9 +15,12 @@
             android:orientation="vertical"
             >
 
+            <include layout="@layout/part_salutacio" />
             <include layout="@layout/part_hamburguesa" />
             <include layout="@layout/part_beguda" />
             <include layout="@layout/part_postres" />
+            <include layout="@layout/part_finalitzar" />
+
 
         </LinearLayout>
 
