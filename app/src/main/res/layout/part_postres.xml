@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="wrap_content"
     android:background="@android:color/holo_blue_bright">
 
     <ImageView
@@ -24,9 +24,11 @@
         android:id="@+id/radioGroup3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/radioGroup4"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,4 +76,17 @@
             android:text="@string/fruita" />
 
     </RadioGroup>
+
+    <CheckBox
+        android:id="@+id/checkbox_postres"
+        android:layout_width="61dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:checked="true"
+        app:layout_constraintBottom_toBottomOf="@+id/postres_icon"
+        app:layout_constraintStart_toEndOf="@+id/postres_icon"
+        app:layout_constraintTop_toTopOf="@+id/postres_icon" />
 </android.support.constraint.ConstraintLayout>
