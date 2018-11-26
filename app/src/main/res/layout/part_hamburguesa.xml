@@ -1,9 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="300dp"
     android:background="@android:color/holo_red_light"
-    >
+    tools:layout_editor_absoluteY="81dp">
 
+    <ImageView
+        android:id="@+id/burguer_icon"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:color/black" />
+
+    <Switch
+        android:id="@+id/enciam_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:switchPadding="100dp"
+        android:text="@string/enciam"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/burguer_icon" />
+
+    <Switch
+        android:id="@+id/tomaquet_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:switchPadding="80dp"
+        android:text="@string/tomaquet"
+        app:layout_constraintEnd_toEndOf="@+id/enciam_switch"
+        app:layout_constraintStart_toStartOf="@+id/enciam_switch"
+        app:layout_constraintTop_toBottomOf="@+id/enciam_switch" />
+
+    <Switch
+        android:id="@+id/ketchup_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:switchPadding="95dp"
+        android:text="@string/ketchup"
+        app:layout_constraintEnd_toEndOf="@+id/tomaquet_switch"
+        app:layout_constraintStart_toStartOf="@+id/tomaquet_switch"
+        app:layout_constraintTop_toBottomOf="@+id/tomaquet_switch" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:checked="true"
+        app:layout_constraintBottom_toBottomOf="@+id/burguer_icon"
+        app:layout_constraintStart_toEndOf="@+id/burguer_icon"
+        app:layout_constraintTop_toTopOf="@+id/burguer_icon" />
 </android.support.constraint.ConstraintLayout>
