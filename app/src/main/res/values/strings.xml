@@ -14,5 +14,9 @@
     <string name="aigua">Aigua</string>
     <string name="Fanta">Fanta de Taronja</string>
     <string name="mida">Mida:</string>
+    <string name="cupcake">Cupcake</string>
+    <string name="pastis">Pastís</string>
+    <string name="gelat">Gelat</string>
+    <string name="fruita">Fruita</string>
 
 </resources>
