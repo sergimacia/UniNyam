@@ -1,5 +1,7 @@
 package com.example.sergimacia.uninyam;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -9,25 +11,29 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
 
     private Switch ketchup_switch;
@@ -40,9 +46,14 @@ public class MainActivity extends AppCompatActivity {
     private RadioGroup radiogroup_postres;
     private RadioButton btn_begudatriada;
     private RadioButton btn_postrestriades;
+    private double data = 0;
+
+    Button btnDatePicker, btnTimePicker;
+    EditText txtDate, txtTime;
+    private int mYear, mMonth, mDay, mHour, mMinute;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private DocumentReference comandaRef = db.document("Comandes/comanda");
+    private CollectionReference comandaRef = db.collection("Comandes");
 
     /*@Override
     protected void onStart() {
@@ -78,6 +89,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scroll_menu);
         //setContentView(R.layout.activity_main);
 
+        btnDatePicker=(Button)findViewById(R.id.btn_date);
+        btnTimePicker=(Button)findViewById(R.id.btn_time);
+        txtDate=(EditText)findViewById(R.id.in_date);
+        txtTime=(EditText)findViewById(R.id.in_time);
+
         checkbox_beguda = findViewById(R.id.checkbox_beguda);
         checkbox_postres = findViewById(R.id.checkbox_postres);
         checkbox_burger = findViewById(R.id.checkbox_burger);
@@ -86,6 +102,54 @@ public class MainActivity extends AppCompatActivity {
         tomaquet_switch = findViewById(R.id.tomaquet_switch);
         radiogroup_beguda = findViewById(R.id.radio_beguda);
         radiogroup_postres = findViewById(R.id.radio_postres);
+
+        btnDatePicker.setOnClickListener(this);
+        btnTimePicker.setOnClickListener(this);
+    }
+
+    public void onClick(View v) {
+
+        if (v == btnDatePicker) {
+
+            // Get Current Date
+            final Calendar c = Calendar.getInstance();
+            mYear = c.get(Calendar.YEAR);
+            mMonth = c.get(Calendar.MONTH);
+            mDay = c.get(Calendar.DAY_OF_MONTH);
+
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                    new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year,
+                                              int monthOfYear, int dayOfMonth) {
+
+                            txtDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                            data = data + (dayOfMonth*10000) + (monthOfYear *1000000) + (year*100000000);
+                        }
+                    }, mYear, mMonth, mDay);
+            datePickerDialog.show();
+        }
+        if (v == btnTimePicker) {
+
+            // Get Current Time
+            final Calendar c = Calendar.getInstance();
+            mHour = c.get(Calendar.HOUR_OF_DAY);
+            mMinute = c.get(Calendar.MINUTE);
+
+            // Launch Time Picker Dialog
+            TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                    new TimePickerDialog.OnTimeSetListener() {
+
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay,
+                                              int minute) {
+                            txtTime.setText(hourOfDay + ":" + minute);
+                            data = data + (hourOfDay*100) + minute;
+                        }
+                    }, mHour, mMinute, false);
+            timePickerDialog.show();
+        }
     }
 
     public void  saveComanda (View v){
@@ -93,7 +157,6 @@ public class MainActivity extends AppCompatActivity {
         String beguda="";
         String postres="";
         int codi=0;
-        int data=0;
         int preu=0;
         int estat=0;
 
@@ -126,21 +189,21 @@ public class MainActivity extends AppCompatActivity {
 
         Comanda comanda = new Comanda (hamburguesa, beguda, postres, codi, data, preu, estat);
 
-        comandaRef.set(comanda)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(MainActivity.this, "Note saved", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(MainActivity.this, "Error!", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, e.toString());
-                    }
-                });
+        comandaRef.add(comanda).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Toast.makeText(MainActivity.this, "Note saved", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(MainActivity.this, "Error!", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, e.toString());
+            }
+        });
+
     }
+
 
     /*public void deleteComanda(View v){
         comandaRef.delete();

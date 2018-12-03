@@ -5,7 +5,7 @@ public class Comanda {
     private String beguda;
     private String postres;
     private int codi;
-    private int data;
+    private double data;
     private int preu;
     private int estat;
 
@@ -13,7 +13,7 @@ public class Comanda {
         //public no-arg constructor needed for FireBase
     }
 
-    public Comanda(String hamburguesa, String beguda, String postres, int codi, int data, int preu, int estat) {
+    public Comanda(String hamburguesa, String beguda, String postres, int codi, double data, int preu, int estat) {
         this.hamburguesa = hamburguesa;
         this.beguda = beguda;
         this.postres = postres;
@@ -39,7 +39,7 @@ public class Comanda {
         return codi;
     }
 
-    public int getData() {
+    public double getData() {
         return data;
     }
 
