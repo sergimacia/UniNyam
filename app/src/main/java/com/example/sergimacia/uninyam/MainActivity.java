@@ -1,13 +1,18 @@
 package com.example.sergimacia.uninyam;
 
 import android.content.Intent;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,17 +30,21 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
-    private static final String KEY_TITLE = "title";
-    private static final String KEY_DESCRIPTION = "description";
-
-    private EditText editTextTitle;
-    private EditText editTextDescription;
-    private TextView textViewData;
+    private Switch ketchup_switch;
+    private Switch enciam_switch;
+    private Switch tomaquet_switch;
+    private CheckBox checkbox_burger;
+    private CheckBox checkbox_beguda;
+    private CheckBox checkbox_postres;
+    private RadioGroup radiogroup_beguda;
+    private RadioGroup radiogroup_postres;
+    private RadioButton btn_begudatriada;
+    private RadioButton btn_postrestriades;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private DocumentReference comandaRef = db.document("Notebook/My First Note");
+    private DocumentReference comandaRef = db.document("Comandes/comanda");
 
-    @Override
+    /*@Override
     protected void onStart() {
         super.onStart();
         comandaRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
@@ -49,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
                     Comanda comanda = documentSnapshot.toObject(Comanda.class);
 
                     String title = comanda.getTitle();
+                    String title = comanda.getTitle();
+                    String title = comanda.getTitle();
+                    String title = comanda.getTitle();
                     String description = comanda.getDescription();
 
                     textViewData.setText("Title: " + title + "\n" + "Description: " + description);
@@ -59,24 +71,60 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
+*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_scroll_menu);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_scroll_menu);
+        //setContentView(R.layout.activity_main);
 
-        editTextTitle = findViewById(R.id.edit_text_title);
-        editTextDescription = findViewById(R.id.edit_text_description);
-        textViewData = findViewById(R.id.text_view_data);
-
+        checkbox_beguda = findViewById(R.id.checkbox_beguda);
+        checkbox_postres = findViewById(R.id.checkbox_postres);
+        checkbox_burger = findViewById(R.id.checkbox_burger);
+        ketchup_switch = findViewById(R.id.ketchup_switch);
+        enciam_switch = findViewById(R.id.enciam_switch);
+        tomaquet_switch = findViewById(R.id.tomaquet_switch);
+        radiogroup_beguda = findViewById(R.id.radio_beguda);
+        radiogroup_postres = findViewById(R.id.radio_postres);
     }
 
     public void  saveComanda (View v){
-        String title = editTextTitle.getText().toString();
-        String description = editTextDescription.getText().toString();
+        String hamburguesa="";
+        String beguda="";
+        String postres="";
+        int codi=0;
+        int data=0;
+        int preu=0;
+        int estat=0;
 
-        Comanda comanda = new Comanda (title, description);
+        if (checkbox_burger.isChecked()){
+            preu+=4;
+            if (ketchup_switch.isChecked()){
+                hamburguesa = hamburguesa + " ketchup ";
+            }
+            if (enciam_switch.isChecked()){
+                hamburguesa = hamburguesa + " enciam ";
+            }
+            if (tomaquet_switch.isChecked()){
+                hamburguesa = hamburguesa + " tomaquet ";
+            }
+        }
+
+        if(checkbox_beguda.isChecked()){
+            preu+=2;
+            int selectedId= radiogroup_beguda.getCheckedRadioButtonId();
+            btn_begudatriada=(RadioButton)findViewById(selectedId);
+            beguda = btn_begudatriada.getText().toString();
+        }
+
+        if(checkbox_postres.isChecked()){
+            preu+=3;
+            int selectedId= radiogroup_postres.getCheckedRadioButtonId();
+            btn_postrestriades=(RadioButton)findViewById(selectedId);
+            postres = btn_postrestriades.getText().toString();
+        }
+
+        Comanda comanda = new Comanda (hamburguesa, beguda, postres, codi, data, preu, estat);
 
         comandaRef.set(comanda)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -94,9 +142,8 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    public void deleteComanda(View v){
+    /*public void deleteComanda(View v){
         comandaRef.delete();
-    }
-
+    }*/
 
 }
