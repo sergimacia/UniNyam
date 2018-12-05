@@ -204,7 +204,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
     /*public void deleteComanda(View v){
         comandaRef.delete();
     }*/
