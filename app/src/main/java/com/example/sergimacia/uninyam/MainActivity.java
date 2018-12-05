@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                               int monthOfYear, int dayOfMonth) {
 
                             txtDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-                            data = data + (dayOfMonth*10000) + (monthOfYear *1000000) + (year*100000000);
+                            data = data+((double) year*100000000) +(((double)monthOfYear+1)*1000000)+(((double)dayOfMonth)*10000);
                         }
                     }, mYear, mMonth, mDay);
             datePickerDialog.show();
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         public void onTimeSet(TimePicker view, int hourOfDay,
                                               int minute) {
                             txtTime.setText(hourOfDay + ":" + minute);
-                            data = data + (hourOfDay*100) + minute;
+                            data = data + (((double)hourOfDay*100)+1) + ((double)minute*1);
                         }
                     }, mHour, mMinute, false);
             timePickerDialog.show();
