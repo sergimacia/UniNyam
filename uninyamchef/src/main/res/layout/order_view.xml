@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="90dp">
+    android:layout_height="100dp"
+    tools:layout_editor_absoluteY="81dp">
 
     <TextView
         android:id="@+id/H_view"
@@ -76,43 +76,40 @@
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
+        android:text="8731"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/P_view"
-        tools:text="8731" />
+        app:layout_constraintTop_toBottomOf="@+id/P_view" />
 
     <TextView
         android:id="@+id/data_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginLeft="90dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="90dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="4dp"
+        android:text="28/10/2018"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ingredientsburger_view"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="28/10/2018" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/hora_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:text="14:10"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="@+id/data_view"
-        app:layout_constraintTop_toBottomOf="@+id/data_view"
-        tools:text="14:10" />
+        app:layout_constraintTop_toBottomOf="@+id/data_view" />
 
     <TextView
         android:id="@+id/euro_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:text="€"
         app:layout_constraintEnd_toEndOf="@+id/hora_view"
-        app:layout_constraintTop_toBottomOf="@+id/hora_view"
-        tools:text="€" />
+        app:layout_constraintTop_toBottomOf="@+id/hora_view" />
 
     <TextView
         android:id="@+id/preu_view"
@@ -120,8 +117,23 @@
         android:layout_height="16dp"
         android:layout_marginEnd="2dp"
         android:layout_marginRight="2dp"
+        android:text="6"
         app:layout_constraintBaseline_toBaselineOf="@+id/euro_view"
-        app:layout_constraintEnd_toStartOf="@+id/euro_view"
-        tools:text="6" />
+        app:layout_constraintEnd_toStartOf="@+id/euro_view" />
+
+    <ImageView
+        android:id="@+id/linia"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/codi_view"
+        app:srcCompat="@android:color/darker_gray" />
 
 </android.support.constraint.ConstraintLayout>

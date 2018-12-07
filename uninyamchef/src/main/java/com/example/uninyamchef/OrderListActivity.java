@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -17,6 +18,8 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,14 +42,6 @@ public class OrderListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_list);
 
         comandes= new ArrayList<>();
-        comandaRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot documentSnapshots) {
-                for (DocumentSnapshot documentSnapshot : documentSnapshots){
-                    Comanda comanda = documentSnapshot.toObject(Comanda.class);
-                }
-            }
-        });
 
         order_list_view=findViewById(R.id.order_list_view);
 
@@ -69,7 +64,9 @@ public class OrderListActivity extends AppCompatActivity {
 
                 for (DocumentSnapshot documentSnapshot : documentSnapshots){
                     Comanda comanda = documentSnapshot.toObject(Comanda.class);
+                    comandes.add(comanda);
                 }
+                adapter.notifyDataSetChanged();
             }
         });
 
@@ -78,9 +75,13 @@ public class OrderListActivity extends AppCompatActivity {
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView ingredientsburger_view;
+        private TextView beguda_view;
+        private TextView postre_view;
         public ViewHolder(View itemView) {
             super(itemView);
-            ingredientsburger_view=findViewById(R.id.ingredientsburger_view);
+            ingredientsburger_view = itemView.findViewById(R.id.ingredientsburger_view);
+            beguda_view=itemView.findViewById(R.id.beguda_view);
+            postre_view=itemView.findViewById(R.id.postre_view);
 
             //onClick per fer els swipe
         }
@@ -95,11 +96,13 @@ public class OrderListActivity extends AppCompatActivity {
             return new ViewHolder(itemView);
         }
 
-        //recicla
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             Comanda comanda = comandes.get(position);
             holder.ingredientsburger_view.setText(comanda.getHamburguesa());
+            holder.beguda_view.setText(comanda.getBeguda());
+            holder.postre_view.setText(comanda.getPostres());
+
         }
 
         @Override
