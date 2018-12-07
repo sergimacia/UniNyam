@@ -35,6 +35,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
+    private static final int ENVIA = 1;
 
     private Switch ketchup_switch;
     private Switch enciam_switch;
@@ -55,39 +56,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference comandaRef = db.collection("Comandes");
 
-    /*@Override
-    protected void onStart() {
-        super.onStart();
-        comandaRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
-                if(e!= null){
-                    Toast.makeText(MainActivity.this, "Error while loading!", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, e.toString());
-                }
-                if (documentSnapshot.exists()){
-                    Comanda comanda = documentSnapshot.toObject(Comanda.class);
-
-                    String title = comanda.getTitle();
-                    String title = comanda.getTitle();
-                    String title = comanda.getTitle();
-                    String title = comanda.getTitle();
-                    String description = comanda.getDescription();
-
-                    textViewData.setText("Title: " + title + "\n" + "Description: " + description);
-
-                }else {
-                    textViewData.setText("");
-                }
-            }
-        });
-    }
-*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scroll_menu);
-        //setContentView(R.layout.activity_main);
 
         btnDatePicker=(Button)findViewById(R.id.btn_date);
         btnTimePicker=(Button)findViewById(R.id.btn_time);
@@ -156,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String hamburguesa="";
         String beguda="";
         String postres="";
-        int codi=0;
+        int codi=1234;
         int preu=0;
         int estat=0;
 
@@ -202,10 +174,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-    }
+        Intent intent = new Intent(this,ReceiptActivity.class);
+        intent.putExtra("codi", 1234);
+        startActivityForResult(intent,ENVIA);
 
-    /*public void deleteComanda(View v){
-        comandaRef.delete();
-    }*/
+    }
 
 }
