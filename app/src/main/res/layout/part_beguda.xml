@@ -3,13 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@android:color/holo_green_light">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/beguda_icon"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="24dp"

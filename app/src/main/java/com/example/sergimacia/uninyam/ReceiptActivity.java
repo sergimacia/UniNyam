@@ -25,6 +25,10 @@ public class ReceiptActivity extends AppCompatActivity {
     private TextView hamburguesa_view;
     private TextView beguda_view;
     private TextView postres_view;
+    private TextView ID_view;
+    private TextView preu_view;
+    private TextView data_view;
+    private TextView hora_view;
     private ImageView estat_view;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,10 @@ public class ReceiptActivity extends AppCompatActivity {
         beguda_view = findViewById(R.id.beguda_view);
         postres_view = findViewById(R.id.postres_view);
         estat_view = findViewById(R.id.estat_icon);
+        ID_view=findViewById(R.id.ID_view);
+        preu_view=findViewById(R.id.preu_view);
+        data_view=findViewById(R.id.data_view);
+        hora_view=findViewById(R.id.hora_view);
 
         Intent intent = getIntent();
         if (intent!= null){
@@ -63,6 +71,40 @@ public class ReceiptActivity extends AppCompatActivity {
                 hamburguesa_view.setText(lamevacomanda.getHamburguesa());
                 beguda_view.setText(lamevacomanda.getBeguda());
                 postres_view.setText(lamevacomanda.getPostres());
+
+                int preu = lamevacomanda.getPreu();
+                preu_view.setText(Integer.toString(preu));
+
+                int id = lamevacomanda.getCodi();
+                ID_view.setText(Integer.toString(id));
+
+                double data = lamevacomanda.getData();
+                double anyL = data/100000000;
+                int anyI=(int)anyL;
+                String any = Integer.toString(anyI);
+
+                double mesL = data/1000000;
+                mesL = mesL%100;
+                int mesI = (int)mesL;
+                String mes = Integer.toString(mesI);
+
+                double diaL = data/10000;
+                diaL=diaL%100;
+                int diaI=(int)diaL;
+                String dia = Integer.toString(diaI);
+
+                data_view.setText(dia + "/" + mes +"/" + any);
+
+                double horaL=data/100;
+                horaL=horaL%100;
+                int horaI=(int)horaL;
+                String hora = Integer.toString(horaI);
+
+                double minutL=data%100;
+                int minutI=(int)minutL;
+                String minut=Integer.toString(minutI);
+
+                hora_view.setText(hora +":" + minut);
 
             }
         });

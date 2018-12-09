@@ -10,12 +10,23 @@
         android:id="@+id/H_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="4dp"
-        android:text="@string/H"
+        android:text="H:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/codi_view" />
+
+    <TextView
+        android:id="@+id/B_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="4dp"
+        android:text="B:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/H_view" />
 
     <TextView
         android:id="@+id/ingredientsburger_view"
@@ -28,22 +39,11 @@
         tools:text="Enciam, Ketchup, Tomàquet" />
 
     <TextView
-        android:id="@+id/B_view"
-        android:layout_width="63dp"
-        android:layout_height="19dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:text="@string/B"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/H_view" />
-
-    <TextView
         android:id="@+id/beguda_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/B_view"
         app:layout_constraintStart_toEndOf="@+id/B_view"
         tools:text="Cocacola" />
@@ -52,8 +52,8 @@
         android:id="@+id/P_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="4dp"
         android:text="@string/P"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,12 +73,12 @@
         android:id="@+id/codi_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="4dp"
         android:text="8731"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/P_view" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/data_view"
@@ -107,8 +107,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:text="€"
-        app:layout_constraintEnd_toEndOf="@+id/hora_view"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/hora_view" />
 
     <TextView
@@ -124,16 +126,26 @@
     <ImageView
         android:id="@+id/linia"
         android:layout_width="0dp"
-        android:layout_height="2dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_height="1dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/codi_view"
+        app:layout_constraintTop_toBottomOf="@+id/postre_view"
         app:srcCompat="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/name_view"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/codi_view"
+        app:layout_constraintStart_toEndOf="@+id/codi_view"
+        tools:text="Daniel Monleón" />
 
 </android.support.constraint.ConstraintLayout>

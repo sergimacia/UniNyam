@@ -77,11 +77,20 @@ public class OrderListActivity extends AppCompatActivity {
         private TextView ingredientsburger_view;
         private TextView beguda_view;
         private TextView postre_view;
+        private TextView codi_view;
+        private TextView preu_view;
+        private TextView data_view;
+        private TextView hora_view;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ingredientsburger_view = itemView.findViewById(R.id.ingredientsburger_view);
             beguda_view=itemView.findViewById(R.id.beguda_view);
             postre_view=itemView.findViewById(R.id.postre_view);
+            codi_view=itemView.findViewById(R.id.codi_view);
+            preu_view=itemView.findViewById(R.id.preu_view);
+            data_view=itemView.findViewById(R.id.data_view);
+            hora_view=itemView.findViewById(R.id.hora_view);
 
             //onClick per fer els swipe
         }
@@ -102,6 +111,43 @@ public class OrderListActivity extends AppCompatActivity {
             holder.ingredientsburger_view.setText(comanda.getHamburguesa());
             holder.beguda_view.setText(comanda.getBeguda());
             holder.postre_view.setText(comanda.getPostres());
+
+            int preuI=comanda.getPreu();
+            String preu=Integer.toString(preuI);
+            holder.preu_view.setText(preu);
+
+            int codiI=comanda.getCodi();
+            String codi = Integer.toString(codiI);
+            holder.codi_view.setText(codi);
+
+            double data = comanda.getData();
+
+            double anyL = data/100000000;
+            int anyI=(int)anyL;
+            String any = Integer.toString(anyI);
+
+            double mesL = data/1000000;
+            mesL = mesL%100;
+            int mesI = (int)mesL;
+            String mes = Integer.toString(mesI);
+
+            double diaL = data/10000;
+            diaL=diaL%100;
+            int diaI=(int)diaL;
+            String dia = Integer.toString(diaI);
+
+            holder.data_view.setText(dia+"/"+mes+"/"+any);
+
+            double horaL=data/100;
+            horaL=horaL%100;
+            int horaI=(int)horaL;
+            String hora = Integer.toString(horaI);
+
+            double minutL=data%100;
+            int minutI=(int)minutL;
+            String minut=Integer.toString(minutI);
+
+            holder.hora_view.setText(hora +":" + minut);
 
         }
 

@@ -65,12 +65,10 @@
         android:id="@+id/ID_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginLeft="64dp"
         android:layout_marginTop="24dp"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/preu_view"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="ID_COMANDA" />
@@ -78,15 +76,13 @@
     <TextView
         android:id="@+id/preu_view"
         android:layout_width="wrap_content"
-        android:layout_height="31dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="2dp"
+        android:layout_marginRight="2dp"
         android:textSize="20sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/ID_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/ID_view"
-        tools:text="MOLTS €" />
+        app:layout_constraintEnd_toStartOf="@+id/euros_view"
+        tools:text="MOLTS" />
 
     <TextView
         android:id="@+id/hamburguesa_view"
@@ -152,5 +148,16 @@
         app:layout_constraintStart_toEndOf="@+id/data_view"
         app:layout_constraintTop_toBottomOf="@+id/estat_icon"
         tools:text="Hora recollida" />
+
+    <TextView
+        android:id="@+id/euros_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="64dp"
+        android:layout_marginRight="64dp"
+        android:text="€"
+        android:textSize="20sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/preu_view"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -28,10 +30,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.gson.Gson;
 
+import java.io.InputStream;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
@@ -47,7 +52,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RadioGroup radiogroup_postres;
     private RadioButton btn_begudatriada;
     private RadioButton btn_postrestriades;
+    private ImageView burguer_icon;
+    private ImageView postres_icon;
+    private ImageView beguda_icon;
     private double data = 0;
+
+    private Gson gson;
 
     Button btnDatePicker, btnTimePicker;
     EditText txtDate, txtTime;
@@ -60,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scroll_menu);
+
+        gson= new Gson();
 
         btnDatePicker=(Button)findViewById(R.id.btn_date);
         btnTimePicker=(Button)findViewById(R.id.btn_time);
@@ -74,9 +86,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tomaquet_switch = findViewById(R.id.tomaquet_switch);
         radiogroup_beguda = findViewById(R.id.radio_beguda);
         radiogroup_postres = findViewById(R.id.radio_postres);
+        burguer_icon=findViewById(R.id.burguer_icon);
+        postres_icon=findViewById(R.id.postres_icon);
+        beguda_icon=findViewById(R.id.beguda_icon);
 
         btnDatePicker.setOnClickListener(this);
         btnTimePicker.setOnClickListener(this);
+
+        Glide.with(this).load("file:///android_asset/burger.png").into(burguer_icon);
+        Glide.with(this).load("file:///android_asset/cake.jpg").into(postres_icon);
+        Glide.with(this).load("file:///android_asset/water.jpg").into(beguda_icon);
+
+
     }
 
     public void onClick(View v) {
@@ -128,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String hamburguesa="";
         String beguda="";
         String postres="";
-        int codi=1234;
+        int codi=0;
         int preu=0;
         int estat=0;
 
@@ -159,12 +180,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             postres = btn_postrestriades.getText().toString();
         }
 
+        long milisegSys = System.currentTimeMillis();
+        milisegSys=milisegSys%100;
+        int miliseg= (int)milisegSys;
+
+        final int random=new Random().nextInt(99);
+
+        codi=miliseg*100+random;
+
+
         Comanda comanda = new Comanda (hamburguesa, beguda, postres, codi, data, preu, estat);
 
         comandaRef.add(comanda).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                Toast.makeText(MainActivity.this, "Note saved", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Comandada guardada", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -175,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         Intent intent = new Intent(this,ReceiptActivity.class);
-        intent.putExtra("codi", 1234);
+        intent.putExtra("codi", codi);
         startActivityForResult(intent,ENVIA);
 
     }

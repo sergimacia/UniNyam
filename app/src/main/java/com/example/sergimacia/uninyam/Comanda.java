@@ -9,6 +9,7 @@ public class Comanda {
     private int preu;
     private int estat;
 
+
     public Comanda() {
         //public no-arg constructor needed for FireBase
     }
