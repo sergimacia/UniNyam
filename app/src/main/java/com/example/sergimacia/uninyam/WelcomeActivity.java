@@ -24,7 +24,6 @@ public class WelcomeActivity extends AppCompatActivity {
         String email= email_view.getText().toString();
 
         // TODO: Escriure a Firebase l'objecte usuari i obtenir l'id.
-
         SharedPreferences prefs = getSharedPreferences("config", MODE_PRIVATE);
         // Exemple per llegir el userId.
         String currentUser = prefs.getString("userId", null);

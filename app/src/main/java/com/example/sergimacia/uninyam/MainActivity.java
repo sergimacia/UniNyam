@@ -83,6 +83,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //TODO: Mirar si existeix un usuari associat a aquesta App.
+        
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scroll_menu);
 
