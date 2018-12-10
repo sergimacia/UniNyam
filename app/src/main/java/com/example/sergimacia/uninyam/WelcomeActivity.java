@@ -1,5 +1,6 @@
 package com.example.sergimacia.uninyam;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -21,6 +22,15 @@ public class WelcomeActivity extends AppCompatActivity {
     public void onLogin (View v) {
         String nom = nom_view.getText().toString();
         String email= email_view.getText().toString();
+
+        // TODO: Escriure a Firebase l'objecte usuari i obtenir l'id.
+
+        SharedPreferences prefs = getSharedPreferences("config", MODE_PRIVATE);
+        // Exemple per llegir el userId.
+        String currentUser = prefs.getString("userId", null);
+
+        // Escriure el userId
+        prefs.edit().putString("userId", "29487239487239487").commit();
     }
 
 

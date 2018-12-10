@@ -42,21 +42,21 @@
             android:text="@string/Cocacola" />
 
         <RadioButton
-            android:id="@+id/btn_aigua"
+            android:id="@+id/btn_suc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/suc" />
 
         <RadioButton
-            android:id="@+id/btn_fanta"
+            android:id="@+id/btn_aigua"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/aigua" />
 
         <RadioButton
-            android:id="@+id/btn_suc"
+            android:id="@+id/btn_fanta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
