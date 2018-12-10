@@ -47,13 +47,13 @@
         app:layout_constraintTop_toBottomOf="@+id/enciam_switch" />
 
     <Switch
-        android:id="@+id/ketchup_switch"
+        android:id="@+id/formatge_switch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="24dp"
+        android:layout_marginTop="8dp"
         android:switchPadding="95dp"
-        android:text="@string/ketchup"
+        android:text="@string/formatge"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/tomaquet_switch"
         app:layout_constraintStart_toStartOf="@+id/tomaquet_switch"

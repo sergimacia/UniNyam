@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "MainActivity";
     private static final int ENVIA = 1;
 
-    private Switch ketchup_switch;
+    private Switch formatge_switch;
     private Switch enciam_switch;
     private Switch tomaquet_switch;
     private CheckBox checkbox_burger;
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         checkbox_beguda = findViewById(R.id.checkbox_beguda);
         checkbox_postres = findViewById(R.id.checkbox_postres);
         checkbox_burger = findViewById(R.id.checkbox_burger);
-        ketchup_switch = findViewById(R.id.ketchup_switch);
+        formatge_switch = findViewById(R.id.formatge_switch);
         enciam_switch = findViewById(R.id.enciam_switch);
         tomaquet_switch = findViewById(R.id.tomaquet_switch);
         radiogroup_beguda = findViewById(R.id.radio_beguda);
@@ -155,8 +155,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (checkbox_burger.isChecked()){
             preu+=4;
-            if (ketchup_switch.isChecked()){
-                hamburguesa = hamburguesa + " ketchup ";
+            if (formatge_switch.isChecked()){
+                hamburguesa = hamburguesa + " formatge ";
             }
             if (enciam_switch.isChecked()){
                 hamburguesa = hamburguesa + " enciam ";

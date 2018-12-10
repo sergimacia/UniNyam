@@ -20,5 +20,6 @@
     <string name="fruita">Fruita</string>
     <string name="HintNom">El teu nom...</string>
     <string name="HintEmail">El teu correu electrònic...</string>
+    <string name="formatge">Formatge</string>
 
 </resources>
