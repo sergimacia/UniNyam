@@ -1,0 +1,107 @@
+{
+  "project_info": {
+    "project_number": "871731627482",
+    "firebase_url": "https://uninyam-60bcc.firebaseio.com",
+    "project_id": "uninyam-60bcc",
+    "storage_bucket": "uninyam-60bcc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:871731627482:android:9f78103682c30592",
+        "android_client_info": {
+          "package_name": "com.example.sergimacia.uninyam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "871731627482-012i8ji9h73kpac3s10f5s7ts4fg9oc9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sergimacia.uninyam",
+            "certificate_hash": "c2aedf92c6e833b5545de9211970e99807774ce3"
+          }
+        },
+        {
+          "client_id": "871731627482-6b892eqjk1s3kkuvr63avk1f15pc12hf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sergimacia.uninyam",
+            "certificate_hash": "403d6134a2196fc5356dbbfeecd90632b104d28e"
+          }
+        },
+        {
+          "client_id": "871731627482-oecj7falk9lll4d3ffcilgeoqqu7irm5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALAfgACL0ettHeO9WMBSPHRtAKQMTUQAM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "871731627482-oecj7falk9lll4d3ffcilgeoqqu7irm5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:871731627482:android:23d34b1d1fdb2b1d",
+        "android_client_info": {
+          "package_name": "com.example.uninyamchef"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "871731627482-avqp15qeuamu3bih4ri9oakb52mktbcd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.uninyamchef",
+            "certificate_hash": "f83059de79d1789bd58c9efd0e654afa21193e80"
+          }
+        },
+        {
+          "client_id": "871731627482-oecj7falk9lll4d3ffcilgeoqqu7irm5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALAfgACL0ettHeO9WMBSPHRtAKQMTUQAM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "871731627482-oecj7falk9lll4d3ffcilgeoqqu7irm5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
