@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int codi=0;
     private int preu=0;
     private int estat=0;
+    private int codiburguer=1;
     private RadioButton radiobutton_cocacola;
     private RadioButton radiobutton_aigua;
     private RadioButton radiobutton_fanta;
@@ -119,17 +120,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnDatePicker.setOnClickListener(this);
         btnTimePicker.setOnClickListener(this);
+
         checkbox_burger.setOnClickListener(this);
         checkbox_beguda.setOnClickListener(this);
         checkbox_postres.setOnClickListener(this);
+
         formatge_switch.setOnClickListener(this);
         tomaquet_switch.setOnClickListener(this);
         enciam_switch.setOnClickListener(this);
 
+        radiobutton_aigua.setOnClickListener(this);
+        radiobutton_cocacola.setOnClickListener(this);
+        radiobutton_fanta.setOnClickListener(this);
+        radiobutton_suc.setOnClickListener(this);
+
+        radiobutton_cupcake.setOnClickListener(this);
+        radiobutton_fruita.setOnClickListener(this);
+        radiobutton_pastis.setOnClickListener(this);
+        radiobutton_gelat.setOnClickListener(this);
+
 
         Glide.with(this).load("file:///android_asset/burger.png").into(burguer_icon);
-        Glide.with(this).load("file:///android_asset/cake.jpg").into(postres_icon);
-        Glide.with(this).load("file:///android_asset/water.jpg").into(beguda_icon);
+        Glide.with(this).load("file:///android_asset/cupcake2.png").into(postres_icon);
+        Glide.with(this).load("file:///android_asset/soda2.png").into(beguda_icon);
 
     }
 
@@ -210,36 +223,68 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(enciam_switch.isChecked() && tomaquet_switch.isChecked() && formatge_switch.isChecked()){
                 Glide.with(this).load("file:///android_asset/burger.png").into(burguer_icon);
                 ruta="file:///android_asset/burger.png";
+                codiburguer=1;
             }
             if(!enciam_switch.isChecked() && !tomaquet_switch.isChecked() && !formatge_switch.isChecked()){
                 Glide.with(this).load("file:///android_asset/no_formatge_tomaquet_enciam.png").into(burguer_icon);
                 ruta="file:///android_asset/no_formatge_tomaquet_enciam.png";
+                codiburguer=2;
             }
             if(!enciam_switch.isChecked() && !tomaquet_switch.isChecked() && formatge_switch.isChecked()){
                 Glide.with(this).load("file:///android_asset/no_tomaquet_enciam.png").into(burguer_icon);
                 ruta ="file:///android_asset/no_tomaquet_enciam.png";
+                codiburguer=3;
             }
             if(!enciam_switch.isChecked() && tomaquet_switch.isChecked() && formatge_switch.isChecked()){
                 Glide.with(this).load("file:///android_asset/no_enciam.png").into(burguer_icon);
                 ruta ="file:///android_asset/no_enciam.png";
+                codiburguer=4;
             }
             if(enciam_switch.isChecked() && !tomaquet_switch.isChecked() && !formatge_switch.isChecked()){
                 Glide.with(this).load("file:///android_asset/no_tomaquet_formatge.png").into(burguer_icon);
                 ruta ="file:///android_asset/no_tomaquet_formatge.png";
+                codiburguer=5;
             }
             if(enciam_switch.isChecked() && tomaquet_switch.isChecked() && !formatge_switch.isChecked()){
                 Glide.with(this).load("file:///android_asset/no_formatge.png").into(burguer_icon);
                 ruta ="file:///android_asset/no_formatge.png";
+                codiburguer=6;
             }
             if(enciam_switch.isChecked() && !tomaquet_switch.isChecked() && formatge_switch.isChecked()){
                 Glide.with(this).load("file:///android_asset/no_tomaquet.png").into(burguer_icon);
                 ruta ="file:///android_asset/no_tomaquet.png";
+                codiburguer=7;
             }
             if(!enciam_switch.isChecked() && tomaquet_switch.isChecked() && !formatge_switch.isChecked()){
                 Glide.with(this).load("file:///android_asset/no_enciam_formatge.png").into(burguer_icon);
                 ruta ="file:///android_asset/no_enciam_formatge.png";
+                codiburguer=8;
             }
         }
+
+        if(v==radiobutton_aigua){
+            Glide.with(this).load("file:///android_asset/water2.png").into(beguda_icon);
+        }
+        if(v==radiobutton_cocacola){
+            Glide.with(this).load("file:///android_asset/soda2.png").into(beguda_icon);
+        }
+        if(v==radiobutton_suc){
+            Glide.with(this).load("file:///android_asset/orange_juice2.png").into(beguda_icon);
+        }
+
+        if (v == radiobutton_cupcake) {
+            Glide.with(this).load("file:///android_asset/cupcake2.png").into(postres_icon);
+        }
+        if (v == radiobutton_gelat) {
+            Glide.with(this).load("file:///android_asset/icecream2.png").into(postres_icon);
+        }
+        if (v == radiobutton_fruita) {
+            Glide.with(this).load("file:///android_asset/banana2.png").into(postres_icon);
+        }
+        if (v == radiobutton_pastis) {
+            Glide.with(this).load("file:///android_asset/cake2.png").into(postres_icon);
+        }
+
     }
 
     public void  saveComanda (View v){
@@ -308,6 +353,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     Intent intent = new Intent(MainActivity.this, ReceiptActivity.class);
                     intent.putExtra("codi", codi);
+                    intent.putExtra("codiburguer", codiburguer);
                     startActivityForResult(intent, ENVIA);
                 }
             });
