@@ -33,6 +33,7 @@ public class ReceiptActivity extends AppCompatActivity {
     private TextView data_view;
     private TextView hora_view;
     private ImageView estat_view;
+    private TextView mida_view;
     private ImageView burguer_icon2;
     private ImageView postres_icon2;
     private ImageView beguda_icon2;
@@ -45,6 +46,7 @@ public class ReceiptActivity extends AppCompatActivity {
         beguda_view = findViewById(R.id.beguda_view);
         postres_view = findViewById(R.id.postres_view);
         estat_view = findViewById(R.id.estat_icon);
+        mida_view=findViewById(R.id.mida_view);
         ID_view=findViewById(R.id.ID_view);
         preu_view=findViewById(R.id.preu_view);
         data_view=findViewById(R.id.data_view);
@@ -106,6 +108,7 @@ public class ReceiptActivity extends AppCompatActivity {
                 hamburguesa_view.setText(lamevacomanda.getHamburguesa());
                 beguda_view.setText(lamevacomanda.getBeguda());
                 postres_view.setText(lamevacomanda.getPostres());
+                mida_view.setText(lamevacomanda.getMida());
 
                 int preu = lamevacomanda.getPreu();
                 preu_view.setText(Integer.toString(preu));

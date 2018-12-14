@@ -1,6 +1,15 @@
 package com.example.sergimacia.uninyam;
 
 public class Usuari {
+
+    private String Nom;
+    private String Email;
+    private int despesa;
+
+    public Usuari() {
+        //public no-arg constructor needed for FireBase
+    }
+
     public String getNom() {
         return Nom;
     }
@@ -17,24 +26,18 @@ public class Usuari {
         Email = email;
     }
 
-    public int getId() {
-        return id;
+    public int getPreu() {
+        return despesa;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPreu(int despesa) {
+        this.despesa = despesa;
     }
 
-    public Usuari(String nom, String email, int id) {
-
+    public Usuari(String nom, String email, int despesa) {
         Nom = nom;
         Email = email;
-        this.id = id;
+        this.despesa = despesa;
     }
-
-    private String Nom;
-    private String Email;
-    private int id;
-
 
 }

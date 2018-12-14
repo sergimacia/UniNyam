@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -17,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -31,6 +34,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.gson.Gson;
+import android.content.SharedPreferences;
 
 import java.io.InputStream;
 import java.util.Calendar;
@@ -38,7 +42,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
     private static final String TAG = "MainActivity";
     private static final int ENVIA = 1;
 
@@ -58,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private double data = 0;
     private String hamburguesa="";
     private String beguda="";
+    private String mida="";
     private String postres="";
     private int codi=0;
     private int preu=0;
@@ -72,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RadioButton radiobutton_cupcake;
     private RadioButton radiobutton_fruita;
     private String ruta="file:///android_asset/burger.png";
-
     private Gson gson;
 
     Button btnDatePicker, btnTimePicker;
@@ -81,12 +85,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference comandaRef = db.collection("Comandes");
+    private String userId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Es verifica si l'usuari ja està autenticat en l'aplicació.
+        SharedPreferences prefs = getSharedPreferences("config", MODE_PRIVATE);
 
-        //TODO: Mirar si existeix un usuari associat a aquesta App.
-        
+        userId = prefs.getString("id", null);
+        if (userId != null) {
+            // Ja existeix un usuari
+        } else {
+            Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
+            intent.putExtra("id", userId);
+            startActivityForResult(intent, ENVIA);
+            userId = intent.getStringExtra("userId");
+        }
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scroll_menu);
 
@@ -139,6 +156,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         radiobutton_pastis.setOnClickListener(this);
         radiobutton_gelat.setOnClickListener(this);
 
+        Spinner spinner = findViewById(R.id.spinner1);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.mida, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
 
         Glide.with(this).load("file:///android_asset/burger.png").into(burguer_icon);
         Glide.with(this).load("file:///android_asset/cupcake2.png").into(postres_icon);
@@ -198,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             enciam_switch.setEnabled(checkbox_burger.isChecked());
 
         }
-        if (v == checkbox_beguda) {
+        if (v == checkbox_beguda){
             radiobutton_cocacola.setEnabled(checkbox_beguda.isChecked());
             radiobutton_aigua.setEnabled(checkbox_beguda.isChecked());
             radiobutton_fanta.setEnabled(checkbox_beguda.isChecked());
@@ -335,8 +357,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     codi = miliseg * 100 + random;
 
-
-                    Comanda comanda = new Comanda(hamburguesa, beguda, postres, codi, data, preu, estat);
+                    Comanda comanda = new Comanda(hamburguesa, beguda, postres, codi, data, preu, estat, mida);
 
                     comandaRef.add(comanda).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
@@ -360,5 +381,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             builder.setNegativeButton(android.R.string.cancel, null);
             builder.create().show();
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        mida = adapterView.getItemAtPosition(i).toString();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 }

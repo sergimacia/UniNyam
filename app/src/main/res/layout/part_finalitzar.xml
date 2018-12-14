@@ -58,6 +58,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
+        android:inputType="none|date"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -72,7 +73,7 @@
         android:layout_marginRight="8dp"
         android:layout_toEndOf="@+id/in_date"
         android:layout_toRightOf="@+id/in_date"
-        android:text="SELECT DATE"
+        android:text="@string/data"
         app:layout_constraintBaseline_toBaselineOf="@+id/in_date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/in_date" />
@@ -87,6 +88,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
+        android:inputType="time"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -101,7 +103,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="SELECT TIME"
+        android:text="@string/hora"
         app:layout_constraintBaseline_toBaselineOf="@+id/in_time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/in_time" />
