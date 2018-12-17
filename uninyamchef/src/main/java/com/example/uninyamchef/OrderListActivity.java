@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -19,6 +20,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Text;
@@ -53,6 +55,22 @@ public class OrderListActivity extends AppCompatActivity {
         order_list_view.setLayoutManager(new LinearLayoutManager(this));
         adapter = new Adapter();
         order_list_view.setAdapter(adapter);
+
+        /*imageView.setOnTouchListener(new OnSwipeTouchListener(MyActivity.this) {
+            public void onSwipeTop() {
+                Toast.makeText(MyActivity.this, "top", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeRight() {
+                Toast.makeText(MyActivity.this, "right", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeLeft() {
+                Toast.makeText(MyActivity.this, "left", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeBottom() {
+                Toast.makeText(MyActivity.this, "bottom", Toast.LENGTH_SHORT).show();
+            }
+
+        });*/
     }
 
 
@@ -60,7 +78,7 @@ public class OrderListActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        comandaRef.addSnapshotListener(this, new EventListener<QuerySnapshot>() {
+        comandaRef.orderBy("data", Query.Direction.DESCENDING).addSnapshotListener(this, new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
                 if(e!=null){
@@ -78,12 +96,6 @@ public class OrderListActivity extends AppCompatActivity {
 
     }
 
-    /*protected void trobaUsuari(){
-        final CollectionReference actualRef = db.collection("Usuaris/" + userId);
-        actualRef.
-        Usuari usuari = dataSnapshot
-
-    }*/
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView ingredientsburger_view;
@@ -109,6 +121,9 @@ public class OrderListActivity extends AppCompatActivity {
         }
     }
 
+
+
+
     class Adapter extends RecyclerView.Adapter<ViewHolder> {
         //El adapatador hace 3 cosas (3 metodos):
         @NonNull
@@ -119,16 +134,22 @@ public class OrderListActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
             Comanda comanda = comandes.get(position);
             holder.ingredientsburger_view.setText(comanda.getHamburguesa());
             holder.beguda_view.setText(comanda.getBeguda());
             holder.postre_view.setText(comanda.getPostres());
 
-            //trobaUsuari();
-            //userId=comanda.getUserId();
-            //DocumentReference usuariRef = db.document("Usuaris/" + userId);
-            //holder.name_view.setText();
+            userId = comanda.getUserId();
+            db.document("Usuaris/" + userId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    String nom = documentSnapshot.getString("nom");
+                    holder.name_view.setText(nom);
+                    adapter.notifyDataSetChanged();
+                    //
+                }
+            });
 
             int preuI=comanda.getPreu();
             String preu=Integer.toString(preuI);
