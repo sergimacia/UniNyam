@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         userId = prefs.getString("id", null);
         if (userId != null) {
             // Ja existeix un usuari
+            Log.e("ATENCIO",userId);
         } else {
             Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
             intent.putExtra("id", userId);
@@ -357,7 +358,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                     codi = miliseg * 100 + random;
 
-                    Comanda comanda = new Comanda(hamburguesa, beguda, postres, codi, data, preu, estat, mida);
+                    Comanda comanda = new Comanda(hamburguesa, beguda, postres, codi, data, preu, estat, mida, userId);
 
                     comandaRef.add(comanda).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override

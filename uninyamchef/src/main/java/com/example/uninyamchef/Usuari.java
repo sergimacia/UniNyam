@@ -1,4 +1,4 @@
-package com.example.sergimacia.uninyam;
+package com.example.uninyamchef;
 
 public class Usuari {
 

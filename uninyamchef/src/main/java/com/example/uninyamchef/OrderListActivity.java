@@ -1,6 +1,7 @@
 package com.example.uninyamchef;
 
 
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,9 +33,12 @@ public class OrderListActivity extends AppCompatActivity {
 
     private Adapter adapter;
     private RecyclerView order_list_view;
+    private String userId;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference comandaRef = db.collection("Comandes");
+    private CollectionReference usuariRef = db.collection("Usuaris");
+
 
 
     @Override
@@ -67,11 +72,18 @@ public class OrderListActivity extends AppCompatActivity {
                     comandes.add(comanda);
                 }
                 adapter.notifyDataSetChanged();
+                //trobaUsuari();
             }
         });
 
     }
 
+    /*protected void trobaUsuari(){
+        final CollectionReference actualRef = db.collection("Usuaris/" + userId);
+        actualRef.
+        Usuari usuari = dataSnapshot
+
+    }*/
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView ingredientsburger_view;
@@ -81,6 +93,7 @@ public class OrderListActivity extends AppCompatActivity {
         private TextView preu_view;
         private TextView data_view;
         private TextView hora_view;
+        private TextView name_view;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -91,7 +104,7 @@ public class OrderListActivity extends AppCompatActivity {
             preu_view=itemView.findViewById(R.id.preu_view);
             data_view=itemView.findViewById(R.id.data_view);
             hora_view=itemView.findViewById(R.id.hora_view);
-
+            name_view = itemView.findViewById(R.id.name_view);
             //onClick per fer els swipe
         }
     }
@@ -111,6 +124,11 @@ public class OrderListActivity extends AppCompatActivity {
             holder.ingredientsburger_view.setText(comanda.getHamburguesa());
             holder.beguda_view.setText(comanda.getBeguda());
             holder.postre_view.setText(comanda.getPostres());
+
+            //trobaUsuari();
+            //userId=comanda.getUserId();
+            //DocumentReference usuariRef = db.document("Usuaris/" + userId);
+            //holder.name_view.setText();
 
             int preuI=comanda.getPreu();
             String preu=Integer.toString(preuI);
