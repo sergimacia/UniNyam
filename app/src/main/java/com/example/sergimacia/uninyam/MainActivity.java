@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private ImageView postres_icon;
     private ImageView beguda_icon;
     private double data = 0;
+    private String ingredients="";
     private String hamburguesa="";
     private String beguda="";
     private String mida="";
@@ -70,15 +71,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private int codiburguer=1;
     private RadioButton radiobutton_cocacola;
     private RadioButton radiobutton_aigua;
-    private RadioButton radiobutton_fanta;
     private RadioButton radiobutton_suc;
+    private RadioButton radiobutton_cervesa;
     private RadioButton radiobutton_pastis;
     private RadioButton radiobutton_gelat;
     private RadioButton radiobutton_cupcake;
     private RadioButton radiobutton_fruita;
     private String rutaburger="burger";
-    private String rutabeguda="soda";
-    private String rutapostres="cupcake";
+    private String rutabeguda="Coca-Cola";
+    private String rutapostres="Cupcake";
     private Gson gson;
 
     Button btnDatePicker, btnTimePicker;
@@ -127,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         radiogroup_beguda = findViewById(R.id.radio_beguda);
         radiobutton_cocacola = findViewById(R.id.btn_cocacola);
         radiobutton_aigua = findViewById(R.id.btn_aigua);
-        radiobutton_fanta = findViewById(R.id.btn_fanta);
+        radiobutton_cervesa = findViewById(R.id.btn_cervesa);
         radiobutton_suc = findViewById(R.id.btn_suc);
         radiobutton_cupcake = findViewById(R.id.btn_cupcake);
         radiobutton_fruita = findViewById(R.id.btn_fruita);
@@ -151,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         radiobutton_aigua.setOnClickListener(this);
         radiobutton_cocacola.setOnClickListener(this);
-        radiobutton_fanta.setOnClickListener(this);
+        radiobutton_cervesa.setOnClickListener(this);
         radiobutton_suc.setOnClickListener(this);
 
         radiobutton_cupcake.setOnClickListener(this);
@@ -165,11 +166,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
-
-
         Glide.with(this).load("file:///android_asset/burger.png").into(burguer_icon);
-        Glide.with(this).load("file:///android_asset/cupcake.png").into(postres_icon);
-        Glide.with(this).load("file:///android_asset/soda.png").into(beguda_icon);
+        Glide.with(this).load("file:///android_asset/Cupcake.png").into(postres_icon);
+        Glide.with(this).load("file:///android_asset/Coca-Cola.png").into(beguda_icon);
 
     }
 
@@ -181,25 +180,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private void updateImg(String imgName, boolean isGray, ImageView imgView){
         Glide.with(this).load(asset(imgName, isGray)).into(imgView);
-
         if(!isGray) {
             if (imgView.equals(beguda_icon)) rutabeguda=imgName;
             else if (imgView.equals(postres_icon)) rutapostres=imgName;
         }
     }
 
-
-
     public void onClick(View v) {
 
         if (v == btnDatePicker) {
-
             // Get Current Date
             final Calendar c = Calendar.getInstance();
             mYear = c.get(Calendar.YEAR);
             mMonth = c.get(Calendar.MONTH);
             mDay = c.get(Calendar.DAY_OF_MONTH);
-
 
             DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                     new DatePickerDialog.OnDateSetListener() {
@@ -213,8 +207,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     }, mYear, mMonth, mDay);
             datePickerDialog.show();
         }
-        if (v == btnTimePicker) {
 
+        if (v == btnTimePicker) {
             // Get Current Time
             final Calendar c = Calendar.getInstance();
             mHour = c.get(Calendar.HOUR_OF_DAY);
@@ -233,22 +227,23 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     }, mHour, mMinute, false);
             timePickerDialog.show();
         }
+
         if(v==checkbox_burger){
             if(!checkbox_burger.isChecked()) updateImg("burger", true, burguer_icon);
-            if(checkbox_burger.isChecked()) updateImg(rutaburger, false, burguer_icon);
+            if(checkbox_burger.isChecked()) updateImg(ingredients, false, burguer_icon);
 
             tomaquet_switch.setEnabled(checkbox_burger.isChecked());
             formatge_switch.setEnabled(checkbox_burger.isChecked());
             enciam_switch.setEnabled(checkbox_burger.isChecked());
-
         }
+
         if (v == checkbox_beguda){
             if(!checkbox_beguda.isChecked()) updateImg(rutabeguda, true, beguda_icon);
             if(checkbox_beguda.isChecked()) updateImg(rutabeguda, false, beguda_icon);
 
             radiobutton_cocacola.setEnabled(checkbox_beguda.isChecked());
             radiobutton_aigua.setEnabled(checkbox_beguda.isChecked());
-            radiobutton_fanta.setEnabled(checkbox_beguda.isChecked());
+            radiobutton_cervesa.setEnabled(checkbox_beguda.isChecked());
             radiobutton_suc.setEnabled(checkbox_beguda.isChecked());
         }
 
@@ -260,59 +255,37 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             radiobutton_gelat.setEnabled(checkbox_postres.isChecked());
             radiobutton_fruita.setEnabled(checkbox_postres.isChecked());
             radiobutton_cupcake.setEnabled(checkbox_postres.isChecked());
-
         }
 
         if(v==enciam_switch | v==formatge_switch | v==tomaquet_switch){
-            if(enciam_switch.isChecked() && tomaquet_switch.isChecked() && formatge_switch.isChecked()){
-                Glide.with(this).load("file:///android_asset/burger.png").into(burguer_icon);
-                rutaburger="file:///android_asset/burger.png";
-                codiburguer=1;
+            ingredients="";
+            if(!enciam_switch.isChecked()){
+                ingredients+="no_enciam";
+                if(!formatge_switch.isChecked()){
+                    ingredients+="_formatge";
+                    if(!tomaquet_switch.isChecked()) ingredients+="_tomaquet";
+                }
+                else if(!tomaquet_switch.isChecked()) ingredients+="_tomaquet";
             }
-            if(!enciam_switch.isChecked() && !tomaquet_switch.isChecked() && !formatge_switch.isChecked()){
-                Glide.with(this).load("file:///android_asset/no_enciam_formatge_tomaquet.png").into(burguer_icon);
-                rutaburger="file:///android_asset/no_enciam_formatge_tomaquet.png";
-                codiburguer=2;
+            else{
+                if(!tomaquet_switch.isChecked()){
+                    ingredients+="no_tomaquet";
+                    if(!formatge_switch.isChecked()) ingredients+="_formatge";
+                }
+                else if(!formatge_switch.isChecked()) ingredients+="no_formatge";
+                else ingredients="burger";
             }
-            if(!enciam_switch.isChecked() && !tomaquet_switch.isChecked() && formatge_switch.isChecked()){
-                Glide.with(this).load("file:///android_asset/no_tomaquet_enciam.png").into(burguer_icon);
-                rutaburger ="file:///android_asset/no_tomaquet_enciam.png";
-                codiburguer=3;
-            }
-            if(!enciam_switch.isChecked() && tomaquet_switch.isChecked() && formatge_switch.isChecked()){
-                Glide.with(this).load("file:///android_asset/no_enciam.png").into(burguer_icon);
-                rutaburger ="file:///android_asset/no_enciam.png";
-                codiburguer=4;
-            }
-            if(enciam_switch.isChecked() && !tomaquet_switch.isChecked() && !formatge_switch.isChecked()){
-                Glide.with(this).load("file:///android_asset/no_tomaquet_formatge.png").into(burguer_icon);
-                rutaburger ="file:///android_asset/no_tomaquet_formatge.png";
-                codiburguer=5;
-            }
-            if(enciam_switch.isChecked() && tomaquet_switch.isChecked() && !formatge_switch.isChecked()){
-                Glide.with(this).load("file:///android_asset/no_formatge.png").into(burguer_icon);
-                rutaburger ="file:///android_asset/no_formatge.png";
-                codiburguer=6;
-            }
-            if(enciam_switch.isChecked() && !tomaquet_switch.isChecked() && formatge_switch.isChecked()){
-                Glide.with(this).load("file:///android_asset/no_tomaquet.png").into(burguer_icon);
-                rutaburger ="file:///android_asset/no_tomaquet.png";
-                codiburguer=7;
-            }
-            if(!enciam_switch.isChecked() && tomaquet_switch.isChecked() && !formatge_switch.isChecked()){
-                Glide.with(this).load("file:///android_asset/no_enciam_formatge.png").into(burguer_icon);
-                rutaburger ="file:///android_asset/no_enciam_formatge.png";
-                codiburguer=8;
-            }
+            updateImg(ingredients, false, burguer_icon);
         }
 
-        if(v==radiobutton_aigua) updateImg("water", false, beguda_icon);
-        if(v==radiobutton_cocacola) updateImg("soda", false, beguda_icon);
-        if(v==radiobutton_suc) updateImg("orange_juice", false, beguda_icon);
-        if (v == radiobutton_cupcake) updateImg("cupcake", false, postres_icon);
-        if (v == radiobutton_gelat) updateImg("icecream", false, postres_icon);
-        if (v == radiobutton_fruita) updateImg("banana", false, postres_icon);
-        if (v == radiobutton_pastis) updateImg("cake", false, postres_icon);
+        if(v==radiobutton_aigua) updateImg("Aigua", false, beguda_icon);
+        if(v==radiobutton_cocacola) updateImg("Coca-Cola", false, beguda_icon);
+        if(v==radiobutton_suc) updateImg("Suc", false, beguda_icon);
+        if(v==radiobutton_cervesa) updateImg("Cervesa", false, beguda_icon);
+        if (v == radiobutton_cupcake) updateImg("Cupcake", false, postres_icon);
+        if (v == radiobutton_gelat) updateImg("Gelat", false, postres_icon);
+        if (v == radiobutton_fruita) updateImg("Fruita", false, postres_icon);
+        if (v == radiobutton_pastis) updateImg("Pastís", false, postres_icon);
 
     }
 
@@ -381,7 +354,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                     Intent intent = new Intent(MainActivity.this, ReceiptActivity.class);
                     intent.putExtra("codi", codi);
-                    intent.putExtra("codiburguer", codiburguer);
+                    intent.putExtra("ingredients", ingredients);
                     startActivityForResult(intent, ENVIA);
                 }
             });

@@ -23,6 +23,7 @@
     <string name="formatge">Formatge</string>
     <string name="data">Selecciona data</string>
     <string name="hora">Selecciona hora</string>
+    <string name="cervesa">Cervesa</string>
     <string-array name="mida">
         <item>S</item>
         <item>L</item>
