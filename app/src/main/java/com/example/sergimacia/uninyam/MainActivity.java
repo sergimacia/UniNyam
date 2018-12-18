@@ -76,7 +76,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private RadioButton radiobutton_gelat;
     private RadioButton radiobutton_cupcake;
     private RadioButton radiobutton_fruita;
-    private String ruta="file:///android_asset/burger.png";
+    private String rutaburger="burger";
+    private String rutabeguda="soda";
+    private String rutapostres="cupcake";
     private Gson gson;
 
     Button btnDatePicker, btnTimePicker;
@@ -163,11 +165,30 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
+
+
         Glide.with(this).load("file:///android_asset/burger.png").into(burguer_icon);
-        Glide.with(this).load("file:///android_asset/cupcake2.png").into(postres_icon);
-        Glide.with(this).load("file:///android_asset/soda2.png").into(beguda_icon);
+        Glide.with(this).load("file:///android_asset/cupcake.png").into(postres_icon);
+        Glide.with(this).load("file:///android_asset/soda.png").into(beguda_icon);
 
     }
+
+    private String asset (String imgName, boolean isGray){
+        String gray="";
+        if(isGray) gray="no_";
+        return "file:///android_asset/"+gray+imgName+".png";
+    }
+
+    private void updateImg(String imgName, boolean isGray, ImageView imgView){
+        Glide.with(this).load(asset(imgName, isGray)).into(imgView);
+
+        if(!isGray) {
+            if (imgView.equals(beguda_icon)) rutabeguda=imgName;
+            else if (imgView.equals(postres_icon)) rutapostres=imgName;
+        }
+    }
+
+
 
     public void onClick(View v) {
 
@@ -213,8 +234,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             timePickerDialog.show();
         }
         if(v==checkbox_burger){
-            if(!checkbox_burger.isChecked()) Glide.with(this).load("file:///android_asset/no_burger.png").into(burguer_icon);
-            if(checkbox_burger.isChecked()) Glide.with(this).load(ruta).into(burguer_icon);
+            if(!checkbox_burger.isChecked()) updateImg("burger", true, burguer_icon);
+            if(checkbox_burger.isChecked()) updateImg(rutaburger, false, burguer_icon);
 
             tomaquet_switch.setEnabled(checkbox_burger.isChecked());
             formatge_switch.setEnabled(checkbox_burger.isChecked());
@@ -222,6 +243,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         }
         if (v == checkbox_beguda){
+            if(!checkbox_beguda.isChecked()) updateImg(rutabeguda, true, beguda_icon);
+            if(checkbox_beguda.isChecked()) updateImg(rutabeguda, false, beguda_icon);
+
             radiobutton_cocacola.setEnabled(checkbox_beguda.isChecked());
             radiobutton_aigua.setEnabled(checkbox_beguda.isChecked());
             radiobutton_fanta.setEnabled(checkbox_beguda.isChecked());
@@ -229,84 +253,66 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         if (v==checkbox_postres){
+            if(!checkbox_postres.isChecked()) updateImg(rutapostres, true, postres_icon);
+            if(checkbox_postres.isChecked()) updateImg(rutapostres, false, postres_icon);
+
             radiobutton_pastis.setEnabled(checkbox_postres.isChecked());
             radiobutton_gelat.setEnabled(checkbox_postres.isChecked());
             radiobutton_fruita.setEnabled(checkbox_postres.isChecked());
             radiobutton_cupcake.setEnabled(checkbox_postres.isChecked());
 
-            if(checkbox_postres.isChecked()){
-                radiogroup_postres.setEnabled(true);
-            }
-            else{
-                radiogroup_postres.setEnabled(false);
-            }
         }
 
         if(v==enciam_switch | v==formatge_switch | v==tomaquet_switch){
             if(enciam_switch.isChecked() && tomaquet_switch.isChecked() && formatge_switch.isChecked()){
                 Glide.with(this).load("file:///android_asset/burger.png").into(burguer_icon);
-                ruta="file:///android_asset/burger.png";
+                rutaburger="file:///android_asset/burger.png";
                 codiburguer=1;
             }
             if(!enciam_switch.isChecked() && !tomaquet_switch.isChecked() && !formatge_switch.isChecked()){
-                Glide.with(this).load("file:///android_asset/no_formatge_tomaquet_enciam.png").into(burguer_icon);
-                ruta="file:///android_asset/no_formatge_tomaquet_enciam.png";
+                Glide.with(this).load("file:///android_asset/no_enciam_formatge_tomaquet.png").into(burguer_icon);
+                rutaburger="file:///android_asset/no_enciam_formatge_tomaquet.png";
                 codiburguer=2;
             }
             if(!enciam_switch.isChecked() && !tomaquet_switch.isChecked() && formatge_switch.isChecked()){
                 Glide.with(this).load("file:///android_asset/no_tomaquet_enciam.png").into(burguer_icon);
-                ruta ="file:///android_asset/no_tomaquet_enciam.png";
+                rutaburger ="file:///android_asset/no_tomaquet_enciam.png";
                 codiburguer=3;
             }
             if(!enciam_switch.isChecked() && tomaquet_switch.isChecked() && formatge_switch.isChecked()){
                 Glide.with(this).load("file:///android_asset/no_enciam.png").into(burguer_icon);
-                ruta ="file:///android_asset/no_enciam.png";
+                rutaburger ="file:///android_asset/no_enciam.png";
                 codiburguer=4;
             }
             if(enciam_switch.isChecked() && !tomaquet_switch.isChecked() && !formatge_switch.isChecked()){
                 Glide.with(this).load("file:///android_asset/no_tomaquet_formatge.png").into(burguer_icon);
-                ruta ="file:///android_asset/no_tomaquet_formatge.png";
+                rutaburger ="file:///android_asset/no_tomaquet_formatge.png";
                 codiburguer=5;
             }
             if(enciam_switch.isChecked() && tomaquet_switch.isChecked() && !formatge_switch.isChecked()){
                 Glide.with(this).load("file:///android_asset/no_formatge.png").into(burguer_icon);
-                ruta ="file:///android_asset/no_formatge.png";
+                rutaburger ="file:///android_asset/no_formatge.png";
                 codiburguer=6;
             }
             if(enciam_switch.isChecked() && !tomaquet_switch.isChecked() && formatge_switch.isChecked()){
                 Glide.with(this).load("file:///android_asset/no_tomaquet.png").into(burguer_icon);
-                ruta ="file:///android_asset/no_tomaquet.png";
+                rutaburger ="file:///android_asset/no_tomaquet.png";
                 codiburguer=7;
             }
             if(!enciam_switch.isChecked() && tomaquet_switch.isChecked() && !formatge_switch.isChecked()){
                 Glide.with(this).load("file:///android_asset/no_enciam_formatge.png").into(burguer_icon);
-                ruta ="file:///android_asset/no_enciam_formatge.png";
+                rutaburger ="file:///android_asset/no_enciam_formatge.png";
                 codiburguer=8;
             }
         }
 
-        if(v==radiobutton_aigua){
-            Glide.with(this).load("file:///android_asset/water2.png").into(beguda_icon);
-        }
-        if(v==radiobutton_cocacola){
-            Glide.with(this).load("file:///android_asset/soda2.png").into(beguda_icon);
-        }
-        if(v==radiobutton_suc){
-            Glide.with(this).load("file:///android_asset/orange_juice2.png").into(beguda_icon);
-        }
-
-        if (v == radiobutton_cupcake) {
-            Glide.with(this).load("file:///android_asset/cupcake2.png").into(postres_icon);
-        }
-        if (v == radiobutton_gelat) {
-            Glide.with(this).load("file:///android_asset/icecream2.png").into(postres_icon);
-        }
-        if (v == radiobutton_fruita) {
-            Glide.with(this).load("file:///android_asset/banana2.png").into(postres_icon);
-        }
-        if (v == radiobutton_pastis) {
-            Glide.with(this).load("file:///android_asset/cake2.png").into(postres_icon);
-        }
+        if(v==radiobutton_aigua) updateImg("water", false, beguda_icon);
+        if(v==radiobutton_cocacola) updateImg("soda", false, beguda_icon);
+        if(v==radiobutton_suc) updateImg("orange_juice", false, beguda_icon);
+        if (v == radiobutton_cupcake) updateImg("cupcake", false, postres_icon);
+        if (v == radiobutton_gelat) updateImg("icecream", false, postres_icon);
+        if (v == radiobutton_fruita) updateImg("banana", false, postres_icon);
+        if (v == radiobutton_pastis) updateImg("cake", false, postres_icon);
 
     }
 
