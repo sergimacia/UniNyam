@@ -38,6 +38,7 @@ import android.content.SharedPreferences;
 
 import java.io.InputStream;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private ImageView burguer_icon;
     private ImageView postres_icon;
     private ImageView beguda_icon;
-    private double data = 0;
+    private double data = 0, data_actual=0, data_escollida=0;
     private String ingredients="burger";
     private String hamburguesa="";
     private String beguda="";
@@ -193,6 +194,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             mMonth = c.get(Calendar.MONTH);
             mDay = c.get(Calendar.DAY_OF_MONTH);
 
+            data_escollida=0;
+            data=0;
             DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                     new DatePickerDialog.OnDateSetListener() {
                         @Override
@@ -201,6 +204,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                             txtDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
                             data = data+((double) year*100000000) +(((double)monthOfYear+1)*1000000)+(((double)dayOfMonth)*10000);
+                            data_escollida=data_escollida+((double) year*100000000) +(((double)monthOfYear+1)*1000000)+(((double)dayOfMonth)*10000);
                         }
                     }, mYear, mMonth, mDay);
             datePickerDialog.show();
@@ -288,76 +292,99 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void  saveComanda (View v){
-        if (data ==0){
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("No has introduït les dades correctament");
-            builder.setNeutralButton(android.R.string.cancel, null);
-            builder.create().show();
+        final Calendar c = Calendar.getInstance();
+        data_actual=0;
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+
+        data_actual = data_actual+((double) mYear*100000000) +(((double)mMonth+1)*1000000)+(((double)mDay)*10000);
+        String data_actual_s=Double.toString(data_actual);
+
+        Log.e("data_actual", Double.toString(data_actual));
+        Log.e("data_escollida", Double.toString(data_escollida));
+
+        if(data_actual>data_escollida){
+            Toast.makeText(this, "Data triada invàlida.", Toast.LENGTH_SHORT).show();
         }
         else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Ja ho tens tot? Segur que vols enviar la comanda?");
-            builder.setPositiveButton("Sí!", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (checkbox_burger.isChecked()) {
-                        preu += 4;
-                        if (formatge_switch.isChecked()) {
-                            hamburguesa = hamburguesa + " formatge ";
+            if (data == 0) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("No has introduït les dades correctament");
+                builder.setNeutralButton(android.R.string.cancel, null);
+                builder.create().show();
+            } else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Ja ho tens tot? Segur que vols enviar la comanda?");
+                builder.setPositiveButton("Sí!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (checkbox_burger.isChecked()) {
+                            preu += 4;
+                            if (formatge_switch.isChecked()) {
+                                hamburguesa = hamburguesa + " formatge ";
+                            }
+                            if (enciam_switch.isChecked()) {
+                                hamburguesa = hamburguesa + " enciam ";
+                            }
+                            if (tomaquet_switch.isChecked()) {
+                                hamburguesa = hamburguesa + " tomaquet ";
+                            }
                         }
-                        if (enciam_switch.isChecked()) {
-                            hamburguesa = hamburguesa + " enciam ";
+
+                        if (checkbox_beguda.isChecked()) {
+                            preu += 2;
+                            int selectedId = radiogroup_beguda.getCheckedRadioButtonId();
+                            btn_begudatriada = (RadioButton) findViewById(selectedId);
+                            beguda = btn_begudatriada.getText().toString();
                         }
-                        if (tomaquet_switch.isChecked()) {
-                            hamburguesa = hamburguesa + " tomaquet ";
+
+                        if (checkbox_postres.isChecked()) {
+                            preu += 3;
+                            int selectedId = radiogroup_postres.getCheckedRadioButtonId();
+                            btn_postrestriades = (RadioButton) findViewById(selectedId);
+                            postres = btn_postrestriades.getText().toString();
+                        }
+
+                        if(ingredients.equals("") && beguda.equals("") && postres.equals("")){
+                            Toast.makeText(MainActivity.this, "No has seleccionat cap producte", Toast.LENGTH_SHORT).show();
+                        }
+
+                        else {
+
+                            long milisegSys = System.currentTimeMillis();
+                            milisegSys = milisegSys % 100;
+                            int miliseg = (int) milisegSys;
+
+                            final int random = new Random().nextInt(99);
+
+                            codi = miliseg * 100 + random;
+
+                            Comanda comanda = new Comanda(hamburguesa, beguda, postres, codi, data, preu, estat, mida, userId);
+
+                            comandaRef.add(comanda).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Toast.makeText(MainActivity.this, "Comandada guardada", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(MainActivity.this, "Error!", Toast.LENGTH_SHORT).show();
+                                    Log.d(TAG, e.toString());
+                                }
+                            });
+
+                            Intent intent = new Intent(MainActivity.this, ReceiptActivity.class);
+                            intent.putExtra("codi", codi);
+                            intent.putExtra("ingredients", ingredients);
+                            startActivityForResult(intent, ENVIA);
                         }
                     }
-
-                    if (checkbox_beguda.isChecked()) {
-                        preu += 2;
-                        int selectedId = radiogroup_beguda.getCheckedRadioButtonId();
-                        btn_begudatriada = (RadioButton) findViewById(selectedId);
-                        beguda = btn_begudatriada.getText().toString();
-                    }
-
-                    if (checkbox_postres.isChecked()) {
-                        preu += 3;
-                        int selectedId = radiogroup_postres.getCheckedRadioButtonId();
-                        btn_postrestriades = (RadioButton) findViewById(selectedId);
-                        postres = btn_postrestriades.getText().toString();
-                    }
-
-                    long milisegSys = System.currentTimeMillis();
-                    milisegSys = milisegSys % 100;
-                    int miliseg = (int) milisegSys;
-
-                    final int random = new Random().nextInt(99);
-
-                    codi = miliseg * 100 + random;
-
-                    Comanda comanda = new Comanda(hamburguesa, beguda, postres, codi, data, preu, estat, mida, userId);
-
-                    comandaRef.add(comanda).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            Toast.makeText(MainActivity.this, "Comandada guardada", Toast.LENGTH_SHORT).show();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(MainActivity.this, "Error!", Toast.LENGTH_SHORT).show();
-                            Log.d(TAG, e.toString());
-                        }
-                    });
-
-                    Intent intent = new Intent(MainActivity.this, ReceiptActivity.class);
-                    intent.putExtra("codi", codi);
-                    intent.putExtra("ingredients", ingredients);
-                    startActivityForResult(intent, ENVIA);
-                }
-            });
-            builder.setNegativeButton(android.R.string.cancel, null);
-            builder.create().show();
+                });
+                builder.setNegativeButton(android.R.string.cancel, null);
+                builder.create().show();
+            }
         }
     }
 
