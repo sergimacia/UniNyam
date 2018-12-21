@@ -1,7 +1,9 @@
 package com.example.uninyamchef;
 
 
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +25,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 
+import java.text.FieldPosition;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,16 +120,59 @@ public class OrderListActivity extends AppCompatActivity {
             data_view=itemView.findViewById(R.id.data_view);
             hora_view=itemView.findViewById(R.id.hora_view);
             name_view = itemView.findViewById(R.id.name_view);
-            //onClick per fer els swipe
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Podemos llamar a métodos de la actividad directamente porque
+                    // el ViewHolder es una clase "inner" (interna) i tiene una referencia a la actividad.
+                    onClickItem(getAdapterPosition());
+                }
+            });
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    onLongClickItem(getAdapterPosition());
+                    return true;
+                }
+            });
+
+
         }
+    }
+
+    public void onClickItem(int position) {
+        //Canviar estat a producció
+    }
+
+    public void onLongClickItem(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Segur que vols esborrar la comanda '" + comandes.get(position).getCodi() + "'");
+        builder.setPositiveButton("Esborrar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                removeItem(position);
+            }
+            //TODO: ESBORRAR COMANDA DEL FIREBASE
+        });
+
+        builder.setNegativeButton(android.R.string.cancel, null);
+        builder.create().show();
+    }
+
+    private void removeItem(int position) {
+        comandes.remove(position);
+        adapter.notifyItemRemoved(position);
     }
 
     class Adapter extends RecyclerView.Adapter<ViewHolder> {
         @NonNull
         @Override
+
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View itemView = getLayoutInflater().inflate(R.layout.order_view, parent, false);//el inflador te crea los objetos a partir del layout
             return new ViewHolder(itemView);
+
         }
 
         @Override
