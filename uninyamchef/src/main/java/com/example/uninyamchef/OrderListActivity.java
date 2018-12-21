@@ -1,18 +1,17 @@
 package com.example.uninyamchef;
 
 
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
+import android.support.v7.widget.helper.ItemTouchHelper.Callback;
+import static android.support.v7.widget.helper.ItemTouchHelper.*;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -23,7 +22,6 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,15 +30,16 @@ import java.util.List;
 public class OrderListActivity extends AppCompatActivity {
 
     List<Comanda> comandes;
+    List<Usuari>  usuaris;
 
     private Adapter adapter;
     private RecyclerView order_list_view;
     private String userId;
+    //SwipeController swipeController = null;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference comandaRef = db.collection("Comandes");
     private CollectionReference usuariRef = db.collection("Usuaris");
-
 
 
     @Override
@@ -49,30 +48,14 @@ public class OrderListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_list);
 
         comandes= new ArrayList<>();
+        usuaris = new ArrayList<>();
 
         order_list_view=findViewById(R.id.order_list_view);
 
         order_list_view.setLayoutManager(new LinearLayoutManager(this));
         adapter = new Adapter();
         order_list_view.setAdapter(adapter);
-
-        /*imageView.setOnTouchListener(new OnSwipeTouchListener(MyActivity.this) {
-            public void onSwipeTop() {
-                Toast.makeText(MyActivity.this, "top", Toast.LENGTH_SHORT).show();
-            }
-            public void onSwipeRight() {
-                Toast.makeText(MyActivity.this, "right", Toast.LENGTH_SHORT).show();
-            }
-            public void onSwipeLeft() {
-                Toast.makeText(MyActivity.this, "left", Toast.LENGTH_SHORT).show();
-            }
-            public void onSwipeBottom() {
-                Toast.makeText(MyActivity.this, "bottom", Toast.LENGTH_SHORT).show();
-            }
-
-        });*/
     }
-
 
     @Override
     protected void onStart() {
@@ -84,13 +67,30 @@ public class OrderListActivity extends AppCompatActivity {
                 if(e!=null){
                     return;
                 }
-
+                comandes.clear();
                 for (DocumentSnapshot documentSnapshot : documentSnapshots){
                     Comanda comanda = documentSnapshot.toObject(Comanda.class);
                     comandes.add(comanda);
                 }
                 adapter.notifyDataSetChanged();
-                //trobaUsuari();
+
+                // Fem que l'array d'usuaris sigui igual de gran que la llista de comandes (però amb nulls)
+                usuaris.clear();
+                for (int i = 0; i < comandes.size(); i++) {
+                    usuaris.add(null);
+                }
+                for (int i = 0; i < comandes.size(); i++) {
+                    final int index = i;
+                    userId = comandes.get(i).getUserId();
+                    db.document("Usuaris/" + userId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            usuaris.set(index, documentSnapshot.toObject(Usuari.class));
+                            adapter.notifyItemChanged(index);
+                        }
+                    });
+                }
+
             }
         });
 
@@ -121,11 +121,7 @@ public class OrderListActivity extends AppCompatActivity {
         }
     }
 
-
-
-
     class Adapter extends RecyclerView.Adapter<ViewHolder> {
-        //El adapatador hace 3 cosas (3 metodos):
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -140,16 +136,12 @@ public class OrderListActivity extends AppCompatActivity {
             holder.beguda_view.setText(comanda.getBeguda());
             holder.postre_view.setText(comanda.getPostres());
 
-            userId = comanda.getUserId();
-            db.document("Usuaris/" + userId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    String nom = documentSnapshot.getString("nom");
-                    holder.name_view.setText(nom);
-                    adapter.notifyDataSetChanged();
-                    //
-                }
-            });
+            Usuari usuari = usuaris.get(position);
+            if (usuari != null) {
+                holder.name_view.setText(usuari.getNom());
+            } else {
+                holder.name_view.setText("");
+            }
 
             int preuI=comanda.getPreu();
             String preu=Integer.toString(preuI);

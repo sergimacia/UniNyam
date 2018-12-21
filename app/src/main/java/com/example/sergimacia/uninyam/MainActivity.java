@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private ImageView postres_icon;
     private ImageView beguda_icon;
     private double data = 0;
-    private String ingredients="";
+    private String ingredients="burger";
     private String hamburguesa="";
     private String beguda="";
     private String mida="";
@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private RadioButton radiobutton_gelat;
     private RadioButton radiobutton_cupcake;
     private RadioButton radiobutton_fruita;
-    private String rutaburger="burger";
     private String rutabeguda="Coca-Cola";
     private String rutapostres="Cupcake";
     private Gson gson;
@@ -104,7 +103,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
             intent.putExtra("id", userId);
             startActivityForResult(intent, ENVIA);
-            userId = intent.getStringExtra("userId");
         }
 
 
@@ -375,6 +373,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case ENVIA:
+                if (resultCode == RESULT_OK) {
+                    userId = data.getStringExtra("userId");
+                }
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
+        }
 
     }
 }
