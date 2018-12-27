@@ -9,8 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -25,11 +27,20 @@ public class WelcomeActivity extends AppCompatActivity {
     private String nom="";
     private String email="";
     private String userId="";
+    private ImageView app_icon;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference usuarisRef = db.collection("Usuaris");
 
     private static final String TAG = "WelcomeActivity";
+
+    private String asset (String imgName){
+        return "file:///android_asset/"+imgName+".png";
+    }
+
+    private void updateImg(String imgName, ImageView imgView){
+        Glide.with(this).load(asset(imgName)).into(imgView);
+    }
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +48,9 @@ public class WelcomeActivity extends AppCompatActivity {
 
         nom_view=findViewById(R.id.nom_view);
         email_view=findViewById(R.id.email_view);
+        app_icon=findViewById(R.id.app_icon);
+
+        updateImg("portada", app_icon);
     }
 
     public void onLogin (View v) {

@@ -32,6 +32,7 @@ public class ReceiptActivity extends AppCompatActivity {
     private TextView ID_view;
     private TextView preu_view;
     private TextView data_view;
+    private TextView estatescrit_view;
     private TextView hora_view;
     private ImageView estat_view;
     private TextView mida_view;
@@ -56,6 +57,7 @@ public class ReceiptActivity extends AppCompatActivity {
         postres_view = findViewById(R.id.postres_view);
         estat_view = findViewById(R.id.estat_icon);
         mida_view=findViewById(R.id.mida_view);
+        estatescrit_view=findViewById(R.id.estatescrit_view);
         ID_view=findViewById(R.id.ID_view);
         preu_view=findViewById(R.id.preu_view);
         data_view=findViewById(R.id.data_view);
@@ -70,7 +72,6 @@ public class ReceiptActivity extends AppCompatActivity {
             codi=intent.getIntExtra("codi",-1);
             ingredients=intent.getStringExtra("ingredients");
         }
-        updateImg(ingredients,burguer_icon2);
     }
 
     @Override
@@ -89,6 +90,7 @@ public class ReceiptActivity extends AppCompatActivity {
                     return;
                 }
 
+                //Snapshot de la comanda especifica
                 for (DocumentSnapshot documentSnapshot : documentSnapshots){
                     Comanda comanda = documentSnapshot.toObject(Comanda.class); //Descarrega comanda del Firebase
                     if (codi == comanda.getCodi()){
@@ -96,17 +98,35 @@ public class ReceiptActivity extends AppCompatActivity {
                     }
                 }
 
-                hamburguesa_view.setText(lamevacomanda.getHamburguesa());
+                //Estats comanda
+                if(lamevacomanda.getEstat()==0) {
+                    updateImg("cuinant", estat_view);
+                    estatescrit_view.setText("Cuinant");
+                }
+                else if(lamevacomanda.getEstat()==1){
+                    updateImg("per menjar", estat_view);
+                    estatescrit_view.setText("Reculli la seva comanda");
+                }
+
+                //Text comanda
+                if(!lamevacomanda.getHamburguesa().equals("no_burger")) hamburguesa_view.setText(lamevacomanda.getHamburguesa());
                 beguda_view.setText(lamevacomanda.getBeguda());
                 postres_view.setText(lamevacomanda.getPostres());
-                mida_view.setText(lamevacomanda.getMida());
+                if(!lamevacomanda.getBeguda().equals("")) mida_view.setText(lamevacomanda.getMida());
 
+                //Carrega imatges
+                updateImg(lamevacomanda.getBeguda(), beguda_icon2);
+                updateImg(lamevacomanda.getPostres(), postres_icon2);
+                if(!ingredients.equals("no_burger"))updateImg(ingredients, burguer_icon2);
+                else updateImg("", burguer_icon2);
+
+                //Carrega preu i ID
                 int preu = lamevacomanda.getPreu();
                 preu_view.setText(Integer.toString(preu));
-
                 int id = lamevacomanda.getCodi();
                 ID_view.setText(Integer.toString(id));
 
+                //Carrega data
                 double data = lamevacomanda.getData();
                 double anyL = data/100000000;
                 int anyI=(int)anyL;
@@ -124,6 +144,7 @@ public class ReceiptActivity extends AppCompatActivity {
 
                 data_view.setText(dia + "/" + mes +"/" + any);
 
+                //Carrega hora
                 double horaL=data/100;
                 horaL=horaL%100;
                 int horaI=(int)horaL;
@@ -134,37 +155,6 @@ public class ReceiptActivity extends AppCompatActivity {
                 String minut=Integer.toString(minutI);
 
                 hora_view.setText(hora +":" + minut);
-
-                updateImg(lamevacomanda.getBeguda(), beguda_icon2);
-                updateImg(lamevacomanda.getPostres(), postres_icon2);
-                /*
-                if(lamevacomanda.getBeguda().equals("Suc")){
-                    Glide.with(ReceiptActivity.this).load("file:///android_asset/orange_juice.png").into(beguda_icon2);
-                }
-                if(lamevacomanda.getBeguda().equals("Aigua")){
-                    Glide.with(ReceiptActivity.this).load("file:///android_asset/water.png").into(beguda_icon2);
-                }
-                if(lamevacomanda.getBeguda().equals("Coca-Cola")){
-                    Glide.with(ReceiptActivity.this).load("file:///android_asset/soda.png").into(beguda_icon2);
-                }
-                if(lamevacomanda.getBeguda().equals("Cervesa")){
-                    Glide.with(ReceiptActivity.this).load("file:///android_asset/beer.png").into(beguda_icon2);
-                }
-                if(lamevacomanda.getPostres().equals("Cupcake")){
-                    Glide.with(ReceiptActivity.this).load("file:///android_asset/cupcake.png").into(postres_icon2);
-                }
-                if(lamevacomanda.getPostres().equals("Pastís")){
-                    Glide.with(ReceiptActivity.this).load("file:///android_asset/cake.png").into(postres_icon2);
-                }
-                if(lamevacomanda.getPostres().equals("Fruita")){
-                    Glide.with(ReceiptActivity.this).load("file:///android_asset/banana.png").into(postres_icon2);
-                }
-                if(lamevacomanda.getPostres().equals("Gelat")){
-                    Glide.with(ReceiptActivity.this).load("file:///android_asset/icecream.png").into(postres_icon2);
-                }*/
-
-                if(lamevacomanda.getBeguda().equals("")) Glide.with(ReceiptActivity.this).load("file:///android_asset/blank.png").into(beguda_icon2);
-                if(lamevacomanda.getPostres().equals("")) Glide.with(ReceiptActivity.this).load("file:///android_asset/blank.png").into(postres_icon2);
 
             }
         });

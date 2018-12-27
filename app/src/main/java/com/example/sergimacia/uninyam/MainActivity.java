@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private String postres="";
     private int codi=0;
     private int preu=0;
-    private int estat=0;
+    private int estat=1;
     private int codiburguer=1;
     private RadioButton radiobutton_cocacola;
     private RadioButton radiobutton_aigua;
@@ -195,7 +195,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             mDay = c.get(Calendar.DAY_OF_MONTH);
 
             data_escollida=0;
-            data=0;
+            data=data%1000;
+            data=data*1000;
             DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                     new DatePickerDialog.OnDateSetListener() {
                         @Override
@@ -215,6 +216,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             final Calendar c = Calendar.getInstance();
             mHour = c.get(Calendar.HOUR_OF_DAY);
             mMinute = c.get(Calendar.MINUTE);
+
+            data=data/10000;
+            data=data*10000;
 
             // Launch Time Picker Dialog
             TimePickerDialog timePickerDialog = new TimePickerDialog(this,
@@ -237,6 +241,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             tomaquet_switch.setEnabled(checkbox_burger.isChecked());
             formatge_switch.setEnabled(checkbox_burger.isChecked());
             enciam_switch.setEnabled(checkbox_burger.isChecked());
+
+            hamburguesa="no_burger";
         }
 
         if (v == checkbox_beguda){
@@ -305,7 +311,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Log.e("data_escollida", Double.toString(data_escollida));
 
         if(data_actual>data_escollida){
-            Toast.makeText(this, "Data triada invàlida.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "La data ha de ser posterior a la data actual.", Toast.LENGTH_SHORT).show();
         }
         else {
             if (data == 0) {
@@ -331,6 +337,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                                 hamburguesa = hamburguesa + " tomaquet ";
                             }
                         }
+                        else{
+                            ingredients="no_burger";
+                        }
+
 
                         if (checkbox_beguda.isChecked()) {
                             preu += 2;
@@ -346,7 +356,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                             postres = btn_postrestriades.getText().toString();
                         }
 
-                        if(ingredients.equals("") && beguda.equals("") && postres.equals("")){
+                        if(ingredients.equals("no_burger") && beguda.equals("") && postres.equals("")){
                             Toast.makeText(MainActivity.this, "No has seleccionat cap producte", Toast.LENGTH_SHORT).show();
                         }
 

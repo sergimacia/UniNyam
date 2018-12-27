@@ -25,7 +25,7 @@
         android:layout_height="70dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -130,23 +130,23 @@
         android:id="@+id/data_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toStartOf="@+id/hora_view"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/estat_icon"
+        app:layout_constraintTop_toBottomOf="@+id/estatescrit_view"
         tools:text="Data recollida" />
 
     <TextView
         android:id="@+id/hora_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/data_view"
-        app:layout_constraintTop_toBottomOf="@+id/estat_icon"
+        app:layout_constraintTop_toBottomOf="@+id/estatescrit_view"
         tools:text="Hora recollida" />
 
     <TextView
@@ -171,5 +171,15 @@
         app:layout_constraintStart_toStartOf="@+id/beguda_view"
         app:layout_constraintTop_toBottomOf="@+id/beguda_view"
         tools:text="XL" />
+
+    <TextView
+        android:id="@+id/estatescrit_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/estat_icon"
+        app:layout_constraintStart_toStartOf="@+id/estat_icon"
+        app:layout_constraintTop_toBottomOf="@+id/estat_icon"
+        tools:text="Cuinant" />
 
 </android.support.constraint.ConstraintLayout>
