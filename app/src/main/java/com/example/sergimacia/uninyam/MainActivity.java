@@ -23,30 +23,22 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import android.content.SharedPreferences;
-
-import java.io.InputStream;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
+
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
     private static final String TAG = "MainActivity";
     private static final int ENVIA = 1;
+    private Gson gson;
 
     private Switch formatge_switch;
     private Switch enciam_switch;
@@ -70,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private int codi=0;
     private int preu=0;
     private int estat=0;
-    private int codiburguer=1;
     private RadioButton radiobutton_cocacola;
     private RadioButton radiobutton_aigua;
     private RadioButton radiobutton_suc;
@@ -81,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private RadioButton radiobutton_fruita;
     private String rutabeguda="Coca-Cola";
     private String rutapostres="Cupcake";
-    private Gson gson;
 
     Button btnDatePicker, btnTimePicker;
     EditText txtDate, txtTime;
@@ -94,14 +84,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //Es verifica si l'usuari ja està autenticat en l'aplicació.
+        //Es verifica si l'usuari ja està autenticat en l'aplicació. S'utilitzen les SharedPreferences.
         SharedPreferences prefs = getSharedPreferences("config", MODE_PRIVATE);
 
         userId = prefs.getString("id", null);
         if (userId != null) {
-            // Ja existeix un usuari
+            //Si ja existeix l'usuari no es fa cap acció addicional.
             Log.e("ATENCIO",userId);
-        } else {
+        } //Si no existeix l'usuari es mostra WelcomeActivity.
+        else {
             Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
             intent.putExtra("id", userId);
             startActivityForResult(intent, ENVIA);
@@ -114,11 +105,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         gson= new Gson();
 
         btnDatePicker=(Button)findViewById(R.id.btn_date);
-
         btnTimePicker=(Button)findViewById(R.id.btn_time);
         txtDate=(EditText)findViewById(R.id.in_date);
         txtTime=(EditText)findViewById(R.id.in_time);
-
         checkbox_beguda = findViewById(R.id.checkbox_beguda);
         checkbox_postres = findViewById(R.id.checkbox_postres);
         checkbox_burger = findViewById(R.id.checkbox_burger);
@@ -160,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         radiobutton_pastis.setOnClickListener(this);
         radiobutton_gelat.setOnClickListener(this);
 
+        //Creació del dropdown de selecció de mida del menú.
         Spinner spinner = findViewById(R.id.spinner1);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.mida, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -172,12 +162,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
+    //Generació ruta obtenció imatges d'assets.
     private String asset (String imgName, boolean isGray){
         String gray="";
         if(isGray) gray="no_";
         return "file:///android_asset/"+gray+imgName+".png";
     }
 
+    //Actualització de la miniatura del producte.
     private void updateImg(String imgName, boolean isGray, ImageView imgView){
         Glide.with(this).load(asset(imgName, isGray)).into(imgView);
         if(!isGray) {
@@ -187,9 +179,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void onClick(View v) {
-
+        //Generació dels diàlegs de selecció de data i hora.
         if (v == btnDatePicker) {
-            // Get Current Date
+            //Obtenció data actual
             final Calendar c = Calendar.getInstance();
             mYear = c.get(Calendar.YEAR);
             mMonth = c.get(Calendar.MONTH);
@@ -203,8 +195,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         @Override
                         public void onDateSet(DatePicker view, int year,
                                               int monthOfYear, int dayOfMonth) {
-
                             txtDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+
+                            //data=any+mes+dia+hora+minut
                             data = data+((double) year*100000000) +(((double)monthOfYear+1)*1000000)+(((double)dayOfMonth)*10000);
                             data_escollida=data_escollida+((double) year*100000000) +(((double)monthOfYear+1)*1000000)+(((double)dayOfMonth)*10000);
                         }
@@ -213,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         if (v == btnTimePicker) {
-            // Get Current Time
+            //Obtenció temps actual
             final Calendar c = Calendar.getInstance();
             mHour = c.get(Calendar.HOUR_OF_DAY);
             mMinute = c.get(Calendar.MINUTE);
@@ -221,10 +214,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             data=data/10000;
             data=data*10000;
 
-            // Launch Time Picker Dialog
             TimePickerDialog timePickerDialog = new TimePickerDialog(this,
                     new TimePickerDialog.OnTimeSetListener() {
-
                         @Override
                         public void onTimeSet(TimePicker view, int hourOfDay,
                                               int minute) {
@@ -235,6 +226,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             timePickerDialog.show();
         }
 
+        //Verifica si l'usuari ha triat o no hamburguesa.
         if(v==checkbox_burger){
             if(!checkbox_burger.isChecked()) updateImg("burger", true, burguer_icon);
             if(checkbox_burger.isChecked()) updateImg(ingredients, false, burguer_icon);
@@ -242,10 +234,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             tomaquet_switch.setEnabled(checkbox_burger.isChecked());
             formatge_switch.setEnabled(checkbox_burger.isChecked());
             enciam_switch.setEnabled(checkbox_burger.isChecked());
-
             hamburguesa="no_burger";
         }
 
+        //Verifica si l'usuari ha triat o no beguda.
         if (v == checkbox_beguda){
             if(!checkbox_beguda.isChecked()) updateImg(rutabeguda, true, beguda_icon);
             if(checkbox_beguda.isChecked()) updateImg(rutabeguda, false, beguda_icon);
@@ -256,6 +248,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             radiobutton_suc.setEnabled(checkbox_beguda.isChecked());
         }
 
+        //Verifica si l'usuari ha triat o no postres.
         if (v==checkbox_postres){
             if(!checkbox_postres.isChecked()) updateImg(rutapostres, true, postres_icon);
             if(checkbox_postres.isChecked()) updateImg(rutapostres, false, postres_icon);
@@ -266,6 +259,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             radiobutton_cupcake.setEnabled(checkbox_postres.isChecked());
         }
 
+        //Generació nom arxiu imatges ingredients hamburguesa.
         if(v==enciam_switch | v==formatge_switch | v==tomaquet_switch){
             ingredients="";
             if(!enciam_switch.isChecked()){
@@ -287,6 +281,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             updateImg(ingredients, false, burguer_icon);
         }
 
+        //Actualitza les miniatures segons les opcions seleccionades.
         if(v==radiobutton_aigua) updateImg("Aigua", false, beguda_icon);
         if(v==radiobutton_cocacola) updateImg("Coca-Cola", false, beguda_icon);
         if(v==radiobutton_suc) updateImg("Suc", false, beguda_icon);
@@ -298,6 +293,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
+    //Desa la comanda seleccionada com a objecte. L'envia a Firebase.
     public void  saveComanda (View v){
         final Calendar c = Calendar.getInstance();
         data_actual=0;
@@ -342,7 +338,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                             ingredients="no_burger";
                         }
 
-
                         if (checkbox_beguda.isChecked()) {
                             preu += 2;
                             int selectedId = radiogroup_beguda.getCheckedRadioButtonId();
@@ -362,7 +357,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         }
 
                         else {
-
+                            //Generació codi a partir de l'hora interna del telèfon i un nombre aleatori.
                             long milisegSys = System.currentTimeMillis();
                             milisegSys = milisegSys % 100;
                             int miliseg = (int) milisegSys;
@@ -371,13 +366,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                             codi = miliseg * 100 + random;
 
+                            //Es desa l'objecte comanda.
                             final Comanda comanda = new Comanda(hamburguesa, beguda, postres, codi, data, preu, estat, mida, userId, comandaId);
 
+                            //Es penja l'objecte comanda a Firebase.
                             comandaRef.add(comanda).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
                                     Toast.makeText(MainActivity.this, "Comandada guardada", Toast.LENGTH_SHORT).show();
-                                    comandaId = documentReference.getId(); //Recuperem comandaId.
+                                    comandaId = documentReference.getId(); //Es recupera comandaId.
                                     comanda.setComandaId(comandaId); //S'afegeix comandaId a l'objecte local.
                                     documentReference.set(comanda); //S'afegeix comandaId a Firebase
                                 }
@@ -390,7 +387,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                                 }
                             });
 
-
+                            //S'obre ReceiptActivity.
                             Intent intent = new Intent(MainActivity.this, ReceiptActivity.class);
                             intent.putExtra("codi", codi);
                             intent.putExtra("ingredients", ingredients);
@@ -404,6 +401,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
+    //Mètodes necessaris spinner.
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         mida = adapterView.getItemAtPosition(i).toString();
@@ -419,6 +417,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
+    //Lectura dades provinents de WelcomeActivity.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {

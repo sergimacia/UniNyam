@@ -1,6 +1,5 @@
 package com.example.uninyamchef;
 
-
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -8,12 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.support.v7.widget.helper.ItemTouchHelper.Callback;
-import static android.support.v7.widget.helper.ItemTouchHelper.*;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -23,22 +19,17 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-
-
-import java.text.FieldPosition;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class OrderListActivity extends AppCompatActivity {
-
     List<Comanda> comandes;
     List<Usuari>  usuaris;
 
     private Adapter adapter;
     private RecyclerView order_list_view;
     private String userId;
-    //SwipeController swipeController = null;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference comandaRef = db.collection("Comandes");
@@ -54,7 +45,6 @@ public class OrderListActivity extends AppCompatActivity {
         usuaris = new ArrayList<>();
 
         order_list_view=findViewById(R.id.order_list_view);
-
         order_list_view.setLayoutManager(new LinearLayoutManager(this));
         adapter = new Adapter();
         order_list_view.setAdapter(adapter);
@@ -64,7 +54,8 @@ public class OrderListActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        comandaRef.orderBy("data", Query.Direction.DESCENDING).addSnapshotListener(this, new EventListener<QuerySnapshot>() {
+        //Recupera de Firebase el conjunt de comandes disponibles. Les ordena de forma creixent, segons la data.
+        comandaRef.orderBy("data", Query.Direction.ASCENDING).addSnapshotListener(this, new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
                 if(e!=null){
@@ -77,7 +68,10 @@ public class OrderListActivity extends AppCompatActivity {
                 }
                 adapter.notifyDataSetChanged();
 
-                // Fem que l'array d'usuaris sigui igual de gran que la llista de comandes (però amb nulls)
+                //El que es fa en les següents línies es traduir el userId dels diversos usuaris en els noms
+                //de la persona que representen. Per això, es consulta a Firebase cada userId a quin nom correspon.
+                //S'aniran creant en local objectes usuari, segons les comandes disponibles.
+                //Com que es vol que la llista d'usuaris sigui igual de llarga que la de comandes, s'igualaran afegint nulls.
                 usuaris.clear();
                 for (int i = 0; i < comandes.size(); i++) {
                     usuaris.add(null);
@@ -121,11 +115,10 @@ public class OrderListActivity extends AppCompatActivity {
             hora_view=itemView.findViewById(R.id.hora_view);
             name_view = itemView.findViewById(R.id.name_view);
 
+            //Definició de la interacció amb l'usuari: onClick i OnLongClick.
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Podemos llamar a métodos de la actividad directamente porque
-                    // el ViewHolder es una clase "inner" (interna) i tiene una referencia a la actividad.
                     onClickItem(getAdapterPosition());
                 }
             });
@@ -136,20 +129,23 @@ public class OrderListActivity extends AppCompatActivity {
                     return true;
                 }
             });
-
-
         }
     }
 
+    //En cas de fer click sobre d'un ítem, es canviarà l'estat de la comanda.
+    //Aquest estat es canvia en l'objecte en local i s'actualitza a Firebase.
     public void onClickItem(int position) {
         Comanda comanda = comandes.get(position);
         int estat = comanda.getEstat();
-        if(estat>=0 && estat<3) estat++; //1 en preparacio, 2 recollir
+        if(estat>=0 && estat<3) estat++; //1 en preparació, 2 recollir.
         comanda.setEstat(estat);
         DocumentReference docref = db.collection("Comandes").document(comanda.getComandaId());
         docref.set(comanda);
     }
 
+    //En cas de fer un long-click, s'entén que l'usuari vol eliminar la comanda perquè ja ha estat
+    //lliurada. Un quadre de diàleg en demana confirmar l'eliminació.
+    //S'esborra l'objecte en local de la comanda i també de Firebase.
     public void onLongClickItem(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Segur que vols esborrar la comanda '" + comandes.get(position).getCodi() + "'");
@@ -157,23 +153,17 @@ public class OrderListActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 removeItem(position);
-
-
             }
-            //TODO: ESBORRAR COMANDA DEL FIREBASE
         });
-
         builder.setNegativeButton(android.R.string.cancel, null);
         builder.create().show();
     }
 
+    //Aquest mètode és cridat des de long-click. Elimina la comanda en qüestió.
     private void removeItem(int position) {
         comandes.remove(position);
         adapter.notifyItemRemoved(position);
         db.document("Comandes/"+ comandes.get(position).getComandaId()).delete();
-        //Cal recuperar comandaId de la comanda en aquesta posició (objecte local).
-        //eliminar arxiu a ("Comandes/" + comandaId).delete();
-        //Ximpum.
     }
 
     class Adapter extends RecyclerView.Adapter<ViewHolder> {
@@ -183,7 +173,6 @@ public class OrderListActivity extends AppCompatActivity {
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View itemView = getLayoutInflater().inflate(R.layout.order_view, parent, false);//el inflador te crea los objetos a partir del layout
             return new ViewHolder(itemView);
-
         }
 
         @Override
@@ -236,7 +225,6 @@ public class OrderListActivity extends AppCompatActivity {
             String minut=Integer.toString(minutI);
 
             holder.hora_view.setText(hora +":" + minut);
-
         }
 
         @Override

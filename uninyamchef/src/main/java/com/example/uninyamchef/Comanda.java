@@ -1,5 +1,6 @@
 package com.example.uninyamchef;
 
+//Definició de la classe comanda.
 public class Comanda {
     private String hamburguesa;
     private String beguda;
