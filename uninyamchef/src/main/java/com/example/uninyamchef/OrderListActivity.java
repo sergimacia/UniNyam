@@ -163,6 +163,9 @@ public class OrderListActivity extends AppCompatActivity {
     private void removeItem(int position) {
         comandes.remove(position);
         adapter.notifyItemRemoved(position);
+        //Cal recuperar comandaId de la comanda en aquesta posició (objecte local).
+        //eliminar arxiu a ("Comandes/" + comandaId).delete();
+        //Ximpum.
     }
 
     class Adapter extends RecyclerView.Adapter<ViewHolder> {
