@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="salutacio">Hey there!</string>
+    <string name="pregunta">What do you feel like eating?</string>
+    <string name="tria_ingredients">Choose the toppings</string>
+    <string name="enciam">Lettuce</string>
+    <string name="tomaquet">Tomato</string>
+    <string name="dia_recollida">Pick up day:</string>
+    <string name="hora_recollida_view">Pick up time:</string>
+    <string name="finalitzar">End order</string>
+    <string name="mida">Size:</string>
+    <string name="HintNom">Your name...</string>
+    <string name="HintEmail">Your email...</string>
+    <string name="formatge">Cheese</string>
+    <string name="data">Pick date</string>
+    <string name="hora">Pick time</string>
+    <string name="error1">The date must be after than the current one.</string>
+    <string name="saved">Order saved.</string>
+    <string name="suc">Juice</string>
+    <string name="aigua">Water</string>
+    <string name="Fanta">Orange Fanta</string>
+    <string name="pastis">Pie</string>
+    <string name="gelat">Ice cream</string>
+    <string name="fruita">Fruit</string>
+    <string name="cervesa">Beer</string>
+    <string name="error2">You have chosen no product.</string>
+    <string name="error3">Wait until your order is completed.</string>
+    <string name="user">User created.</string>
+    <string name="cuinant">In preparation.</string>
+    <string name="llesta">Pick up your order.</string>
+    <string name="error4">Some data may be wrong.</string>
+    <string name="error5">Do you have it all? Are you sure you want to submit the order?</string>
+</resources>

@@ -3,13 +3,9 @@ package com.example.sergimacia.uninyam;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -40,10 +36,12 @@ public class ReceiptActivity extends AppCompatActivity {
     private ImageView postres_icon2;
     private ImageView beguda_icon2;
 
+    //Generació ruta obtenció imatges d'assets.
     private String asset (String imgName){
         return "file:///android_asset/"+imgName+".png";
     }
 
+    //Actualització de la miniatura del producte.
     private void updateImg(String imgName, ImageView imgView){
         Glide.with(this).load(asset(imgName)).into(imgView);
     }
@@ -74,15 +72,17 @@ public class ReceiptActivity extends AppCompatActivity {
         }
     }
 
+    //Sobreescriu el mètode onBackPressed, d'aquesta forma no es permet a l'usuari retrocedir.
     @Override
     public void onBackPressed() {
-        Toast.makeText(this, "Espera a rebre la teva comanda", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.error3, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
+        //Consulta a Firebase quina ha estat la comanda efectuada.
         comandaRef.addSnapshotListener(this, new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
@@ -90,31 +90,31 @@ public class ReceiptActivity extends AppCompatActivity {
                     return;
                 }
 
-                //Snapshot de la comanda especifica
+                //Snapshot de la comanda especifica. En descarrega la informació de Firebase.
                 for (DocumentSnapshot documentSnapshot : documentSnapshots){
-                    Comanda comanda = documentSnapshot.toObject(Comanda.class); //Descarrega comanda del Firebase
+                    Comanda comanda = documentSnapshot.toObject(Comanda.class);
                     if (codi == comanda.getCodi()){
                         lamevacomanda= comanda;
                     }
                 }
 
-                //Estats comanda
+                //Verificació estat comanda.
                 if(lamevacomanda.getEstat()==0) {
                     updateImg("cuinant", estat_view);
-                    estatescrit_view.setText("Cuinant");
+                    estatescrit_view.setText(R.string.cuinant);
                 }
                 else if(lamevacomanda.getEstat()==1){
                     updateImg("per menjar", estat_view);
-                    estatescrit_view.setText("Reculli la seva comanda");
+                    estatescrit_view.setText(R.string.llesta);
                 }
 
-                //Text comanda
+                //Omple la informació de la comanda.
                 if(!lamevacomanda.getHamburguesa().equals("no_burger")) hamburguesa_view.setText(lamevacomanda.getHamburguesa());
                 beguda_view.setText(lamevacomanda.getBeguda());
                 postres_view.setText(lamevacomanda.getPostres());
                 if(!lamevacomanda.getBeguda().equals("")) mida_view.setText(lamevacomanda.getMida());
 
-                //Carrega imatges
+                //Carrega les imatges de la comanda.
                 updateImg(lamevacomanda.getBeguda(), beguda_icon2);
                 updateImg(lamevacomanda.getPostres(), postres_icon2);
                 if(!ingredients.equals("no_burger"))updateImg(ingredients, burguer_icon2);
@@ -155,7 +155,6 @@ public class ReceiptActivity extends AppCompatActivity {
                 String minut=Integer.toString(minutI);
 
                 hora_view.setText(hora +":" + minut);
-
             }
         });
     }

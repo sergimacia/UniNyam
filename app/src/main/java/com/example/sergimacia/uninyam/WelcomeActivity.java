@@ -3,7 +3,6 @@ package com.example.sergimacia.uninyam;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -20,10 +18,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class WelcomeActivity extends AppCompatActivity {
-
     EditText nom_view;
     EditText email_view;
-    private int despesa=0;
     private String nom="";
     private String email="";
     private String userId="";
@@ -34,10 +30,12 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private static final String TAG = "WelcomeActivity";
 
+    //Generació ruta obtenció imatges d'assets.
     private String asset (String imgName){
         return "file:///android_asset/"+imgName+".png";
     }
 
+    //Actualització de la miniatura del producte.
     private void updateImg(String imgName, ImageView imgView){
         Glide.with(this).load(asset(imgName)).into(imgView);
     }
@@ -53,20 +51,22 @@ public class WelcomeActivity extends AppCompatActivity {
         updateImg("portada", app_icon);
     }
 
+    //En fer click al botó de registrar-se, s'executa el següent mètode.
     public void onLogin (View v) {
         nom = nom_view.getText().toString();
         email= email_view.getText().toString();
 
         //Es crea l'usuari
-        Usuari usuari = new Usuari(nom, email, despesa);
+        Usuari usuari = new Usuari(nom, email);
 
         //Es desa l'usuari a Firebase
         usuarisRef.add(usuari).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                Toast.makeText(WelcomeActivity.this, "Usuari registrat", Toast.LENGTH_SHORT).show();
+                Toast.makeText(WelcomeActivity.this, R.string.user, Toast.LENGTH_SHORT).show();
 
-                //Es desa l'usuari a SharedPreferences del mòbil
+                //Es desa l'usuari a SharedPreferences del mòbil. D'aquesta manera s'evita torna
+                //a entrar a WelcomeActivity des del mateix telèfon.
                 SharedPreferences prefs = getSharedPreferences("config", MODE_PRIVATE);
                 userId = documentReference.getId();
                 prefs.edit()

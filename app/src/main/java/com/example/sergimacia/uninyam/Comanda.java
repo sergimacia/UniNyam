@@ -1,5 +1,6 @@
 package com.example.sergimacia.uninyam;
 
+//Definició de la classe comanda.
 public class Comanda {
     private String hamburguesa;
     private String beguda;
@@ -14,7 +15,7 @@ public class Comanda {
 
 
     public Comanda() {
-        //public no-arg constructor needed for FireBase
+        //Constructor necessari per Firebase.
     }
 
     public Comanda(String hamburguesa, String beguda, String postres, int codi, double data, int preu, int estat, String mida, String userId, String comandaId) {
@@ -29,6 +30,7 @@ public class Comanda {
         this.userId = userId;
         this.comandaId = comandaId;
     }
+
     public String getMida() {
         return mida;
     }

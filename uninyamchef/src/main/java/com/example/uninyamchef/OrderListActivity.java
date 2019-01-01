@@ -148,8 +148,8 @@ public class OrderListActivity extends AppCompatActivity {
     //S'esborra l'objecte en local de la comanda i també de Firebase.
     public void onLongClickItem(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Segur que vols esborrar la comanda '" + comandes.get(position).getCodi() + "'");
-        builder.setPositiveButton("Esborrar", new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.confirma +" '" + comandes.get(position).getCodi() + "'");
+        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 removeItem(position);

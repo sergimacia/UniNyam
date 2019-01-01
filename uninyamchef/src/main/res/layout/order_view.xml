@@ -30,18 +30,18 @@
 
     <TextView
         android:id="@+id/ingredientsburger_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
+        android:layout_width="214dp"
+        android:layout_height="18dp"
         android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/H_view"
         app:layout_constraintStart_toEndOf="@+id/H_view"
         tools:text="Enciam, Ketchup, Tomàquet" />
 
     <TextView
         android:id="@+id/beguda_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="88dp"
+        android:layout_height="19dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/B_view"
@@ -61,18 +61,18 @@
 
     <TextView
         android:id="@+id/postre_view"
-        android:layout_width="61dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
+        android:layout_width="88dp"
+        android:layout_height="17dp"
         android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/P_view"
         app:layout_constraintStart_toEndOf="@+id/P_view"
         tools:text="Cupcake" />
 
     <TextView
         android:id="@+id/codi_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="49dp"
+        android:layout_height="20dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="4dp"
@@ -115,8 +115,8 @@
 
     <TextView
         android:id="@+id/preu_view"
-        android:layout_width="wrap_content"
-        android:layout_height="16dp"
+        android:layout_width="21dp"
+        android:layout_height="21dp"
         android:layout_marginEnd="2dp"
         android:layout_marginRight="2dp"
         android:text="6"
@@ -140,8 +140,8 @@
 
     <TextView
         android:id="@+id/name_view"
-        android:layout_width="wrap_content"
-        android:layout_height="19dp"
+        android:layout_width="137dp"
+        android:layout_height="20dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/codi_view"

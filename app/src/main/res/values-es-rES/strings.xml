@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="salutacio">Hola!</string>
+    <string name="pregunta">Qué te apetece hoy?</string>
+    <string name="tria_ingredients">Escoge los ingredientes</string>
+    <string name="enciam">Lechuga</string>
+    <string name="tomaquet">Tomate</string>
+    <string name="dia_recollida">Dia de recogida:</string>
+    <string name="hora_recollida_view">Hora de recogida:</string>
+    <string name="finalitzar">Finaliza el pedido</string>
+    <string name="mida">Tamanyo:</string>
+    <string name="HintNom">Tu nombre...</string>
+    <string name="HintEmail">Tu correo electrónico...</string>
+    <string name="formatge">Queso</string>
+    <string name="data">Seleccionar fecha</string>
+    <string name="hora">Seleccionar hora</string>
+    <string name="error1">La fecha tiene que ser posterior a la actual.</string>
+    <string name="saved">Pedido guardado.</string>
+    <string name="suc">Zumo</string>
+    <string name="aigua">Agua</string>
+    <string name="Fanta">Fanta de Naranja</string>
+    <string name="pastis">Pastel</string>
+    <string name="gelat">Helado</string>
+    <string name="fruita">Fruta</string>
+    <string name="cervesa">Cerveza</string>
+    <string name="error2">No has seleccionado ningún producto.</string>
+    <string name="error3">Espera a recibir tu pedido.</string>
+    <string name="user">Usuario creado.</string>
+    <string name="cuinant">En preparación.</string>
+    <string name="llesta">Recoge tu pedido.</string>
+    <string name="error4">No has introducido los datos correctamente.</string>
+    <string name="error5">Ya lo tienes todo? Seguro que quieres enviar el pedido?</string>
+</resources>

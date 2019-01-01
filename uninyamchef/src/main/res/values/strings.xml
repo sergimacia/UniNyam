@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">UniNyamChef</string>
-    <string name="H">H</string>
-    <string name="B">B:</string>
-    <string name="P">P:</string>
+    <string name="app_name" translatable="false">UniNyamChef</string>
+    <string name="H" translatable="false">H</string>
+    <string name="B" translatable="false">B:</string>
+    <string name="P" translatable="false">P:</string>
+    <string name="confirma">"Segur que vols esborrar la comanda"</string>
+
 </resources>

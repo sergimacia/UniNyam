@@ -1,13 +1,13 @@
 package com.example.uninyamchef;
 
+//Definició de la classe usuari.
 public class Usuari {
 
     private String Nom;
     private String Email;
-    private int despesa;
 
     public Usuari() {
-        //public no-arg constructor needed for FireBase
+        //Constructor necessari per Firebase.
     }
 
     public String getNom() {
@@ -26,18 +26,9 @@ public class Usuari {
         Email = email;
     }
 
-    public int getDespesa() {
-        return despesa;
-    }
-
-    public void setDespesa(int despesa) {
-        this.despesa = despesa;
-    }
-
     public Usuari(String nom, String email, int despesa) {
         Nom = nom;
         Email = email;
-        this.despesa = despesa;
     }
 
 }

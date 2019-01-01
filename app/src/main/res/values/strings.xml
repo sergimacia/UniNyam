@@ -1,20 +1,20 @@
 <resources>
-    <string name="app_name">UniNyam</string>
+    <string name="app_name" translatable="false">UniNyam</string>
     <string name="salutacio">Hola!</string>
     <string name="pregunta">Què et ve de gust avui?</string>
     <string name="tria_ingredients">Tria els ingredients</string>
     <string name="enciam">Enciam</string>
     <string name="tomaquet">Tomàquet</string>
-    <string name="ketchup">Ketchup</string>
+    <string name="ketchup" translatable="false">Ketchup</string>
     <string name="dia_recollida">Dia de recollida:</string>
     <string name="hora_recollida_view">Hora de recollida:</string>
     <string name="finalitzar">Finalitza la comanda</string>
-    <string name="Cocacola">Coca-Cola</string>
+    <string name="Cocacola" translatable="false">Coca-Cola</string>
     <string name="suc">Suc</string>
     <string name="aigua">Aigua</string>
     <string name="Fanta">Fanta de Taronja</string>
     <string name="mida">Mida:</string>
-    <string name="cupcake">Cupcake</string>
+    <string name="cupcake" translatable="false">Cupcake</string>
     <string name="pastis">Pastís</string>
     <string name="gelat">Gelat</string>
     <string name="fruita">Fruita</string>
@@ -23,7 +23,17 @@
     <string name="formatge">Formatge</string>
     <string name="data">Selecciona data</string>
     <string name="hora">Selecciona hora</string>
+    <string name="error1">La data ha de ser posterior a l\'actual.</string>
+    <string name="error2">"No has seleccionat cap producte."</string>
+    <string name="error3">"Espera a rebre la teva comanda."</string>
+    <string name="error4">No has introduït les dades correctament.</string>
+    <string name="error5">"Ja ho tens tot? Segur que vols enviar la comanda?"</string>
+    <string name="user">Usuari creat.</string>
+    <string name="cuinant">En preparació.</string>
+    <string name="saved">Comanda desada.</string>
+    <string name="llesta">Recull la teva comanda</string>
     <string name="cervesa">Cervesa</string>
+
     <string-array name="mida">
         <item>S</item>
         <item>L</item>
