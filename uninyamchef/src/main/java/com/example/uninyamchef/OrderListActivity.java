@@ -142,7 +142,12 @@ public class OrderListActivity extends AppCompatActivity {
     }
 
     public void onClickItem(int position) {
-        //Canviar estat a producció
+        Comanda comanda = comandes.get(position);
+        int estat = comanda.getEstat();
+        if(estat>=0 && estat<3) estat++; //1 en preparacio, 2 recollir
+        comanda.setEstat(estat);
+        DocumentReference docref = db.collection("Comandes").document(comanda.getComandaId());
+        docref.set(comanda);
     }
 
     public void onLongClickItem(final int position) {
@@ -152,6 +157,8 @@ public class OrderListActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 removeItem(position);
+
+
             }
             //TODO: ESBORRAR COMANDA DEL FIREBASE
         });
@@ -163,6 +170,7 @@ public class OrderListActivity extends AppCompatActivity {
     private void removeItem(int position) {
         comandes.remove(position);
         adapter.notifyItemRemoved(position);
+        db.document("Comandes/"+ comandes.get(position).getComandaId()).delete();
         //Cal recuperar comandaId de la comanda en aquesta posició (objecte local).
         //eliminar arxiu a ("Comandes/" + comandaId).delete();
         //Ximpum.

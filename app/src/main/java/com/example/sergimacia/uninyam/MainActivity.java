@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private String postres="";
     private int codi=0;
     private int preu=0;
-    private int estat=1;
+    private int estat=0;
     private int codiburguer=1;
     private RadioButton radiobutton_cocacola;
     private RadioButton radiobutton_aigua;

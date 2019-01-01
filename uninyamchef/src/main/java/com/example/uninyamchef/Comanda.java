@@ -68,4 +68,9 @@ public class Comanda {
     public String getComandaId() {
         return comandaId;
     }
+
+    public void setEstat(int estat) {
+        this.estat = estat;
+    }
+
 }
