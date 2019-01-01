@@ -33,6 +33,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import android.content.SharedPreferences;
 
@@ -370,13 +371,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                             codi = miliseg * 100 + random;
 
-                            Comanda comanda = new Comanda(hamburguesa, beguda, postres, codi, data, preu, estat, mida, userId, comandaId);
+                            final Comanda comanda = new Comanda(hamburguesa, beguda, postres, codi, data, preu, estat, mida, userId, comandaId);
 
                             comandaRef.add(comanda).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
                                     Toast.makeText(MainActivity.this, "Comandada guardada", Toast.LENGTH_SHORT).show();
+                                    comandaId = documentReference.getId(); //Recuperem comandaId.
+                                    comanda.setComandaId(comandaId); //S'afegeix comandaId a l'objecte local.
+                                    documentReference.set(comanda); //S'afegeix comandaId a Firebase
                                 }
+
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
@@ -384,10 +389,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                                     Log.d(TAG, e.toString());
                                 }
                             });
-
-                            //Desar aquí el comandaId a partir de getId.
-                            //comandaRef.addSnapshotListener(new OnSuccessListener<DocumentReference>())
-
 
 
                             Intent intent = new Intent(MainActivity.this, ReceiptActivity.class);

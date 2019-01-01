@@ -68,4 +68,8 @@ public class Comanda {
     public String getComandaId() {
         return comandaId;
     }
+
+    public void setComandaId(String comandaId) {
+        this.comandaId = comandaId;
+    }
 }
