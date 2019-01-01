@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference comandaRef = db.collection("Comandes");
-    private String userId;
+    private String userId, comandaId="";
 
 
     @Override
@@ -370,7 +370,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                             codi = miliseg * 100 + random;
 
-                            Comanda comanda = new Comanda(hamburguesa, beguda, postres, codi, data, preu, estat, mida, userId);
+                            Comanda comanda = new Comanda(hamburguesa, beguda, postres, codi, data, preu, estat, mida, userId, comandaId);
 
                             comandaRef.add(comanda).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
@@ -384,6 +384,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                                     Log.d(TAG, e.toString());
                                 }
                             });
+
+                            //Desar aquí el comandaId a partir de getId.
+                            //comandaRef.addSnapshotListener(new OnSuccessListener<DocumentReference>())
+
+
 
                             Intent intent = new Intent(MainActivity.this, ReceiptActivity.class);
                             intent.putExtra("codi", codi);
