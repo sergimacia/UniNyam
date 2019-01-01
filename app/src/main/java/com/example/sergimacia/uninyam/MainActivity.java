@@ -308,18 +308,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Log.e("data_escollida", Double.toString(data_escollida));
 
         if(data_actual>data_escollida){
-            Toast.makeText(this, "La data ha de ser posterior a la data actual.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.error1, Toast.LENGTH_SHORT).show();
         }
         else {
             if (data == 0) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("No has introduït les dades correctament");
+                builder.setMessage(R.string.error4);
                 builder.setNeutralButton(android.R.string.cancel, null);
                 builder.create().show();
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("Ja ho tens tot? Segur que vols enviar la comanda?");
-                builder.setPositiveButton("Sí!", new DialogInterface.OnClickListener() {
+                builder.setMessage(R.string.error5);
+                builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (checkbox_burger.isChecked()) {
@@ -353,7 +353,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         }
 
                         if(ingredients.equals("no_burger") && beguda.equals("") && postres.equals("")){
-                            Toast.makeText(MainActivity.this, "No has seleccionat cap producte", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, R.string.error2, Toast.LENGTH_SHORT).show();
                         }
 
                         else {
@@ -373,7 +373,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                             comandaRef.add(comanda).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
-                                    Toast.makeText(MainActivity.this, "Comandada guardada", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MainActivity.this, R.string.saved, Toast.LENGTH_SHORT).show();
                                     comandaId = documentReference.getId(); //Es recupera comandaId.
                                     comanda.setComandaId(comandaId); //S'afegeix comandaId a l'objecte local.
                                     documentReference.set(comanda); //S'afegeix comandaId a Firebase
