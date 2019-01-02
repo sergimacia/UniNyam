@@ -1,6 +1,7 @@
 package com.example.uninyamchef;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -30,7 +32,7 @@ public class OrderListActivity extends AppCompatActivity {
     private Adapter adapter;
     private RecyclerView order_list_view;
     private String userId;
-
+    private ImageView background_view;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference comandaRef = db.collection("Comandes");
     private CollectionReference usuariRef = db.collection("Usuaris");
@@ -68,6 +70,7 @@ public class OrderListActivity extends AppCompatActivity {
                 }
                 adapter.notifyDataSetChanged();
 
+
                 //El que es fa en les següents línies es traduir el userId dels diversos usuaris en els noms
                 //de la persona que representen. Per això, es consulta a Firebase cada userId a quin nom correspon.
                 //S'aniran creant en local objectes usuari, segons les comandes disponibles.
@@ -103,6 +106,8 @@ public class OrderListActivity extends AppCompatActivity {
         private TextView data_view;
         private TextView hora_view;
         private TextView name_view;
+        private TextView visualitzacioestat_view;
+        private ImageView background_view;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -114,6 +119,8 @@ public class OrderListActivity extends AppCompatActivity {
             data_view=itemView.findViewById(R.id.data_view);
             hora_view=itemView.findViewById(R.id.hora_view);
             name_view = itemView.findViewById(R.id.name_view);
+            visualitzacioestat_view=itemView.findViewById(R.id.visualitzacioestat_view);
+            background_view=itemView.findViewById(R.id.background_view);
 
             //Definició de la interacció amb l'usuari: onClick i OnLongClick.
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -137,10 +144,11 @@ public class OrderListActivity extends AppCompatActivity {
     public void onClickItem(int position) {
         Comanda comanda = comandes.get(position);
         int estat = comanda.getEstat();
-        if(estat>=0 && estat<3) estat++; //1 en preparació, 2 recollir.
+        if(estat==0) estat=1;
         comanda.setEstat(estat);
         DocumentReference docref = db.collection("Comandes").document(comanda.getComandaId());
         docref.set(comanda);
+
     }
 
     //En cas de fer un long-click, s'entén que l'usuari vol eliminar la comanda perquè ja ha estat
@@ -182,11 +190,21 @@ public class OrderListActivity extends AppCompatActivity {
             holder.beguda_view.setText(comanda.getBeguda());
             holder.postre_view.setText(comanda.getPostres());
 
+
             Usuari usuari = usuaris.get(position);
             if (usuari != null) {
                 holder.name_view.setText(usuari.getNom());
             } else {
                 holder.name_view.setText("");
+            }
+
+            if(comanda.getEstat()==0) {
+                holder.background_view.setVisibility(View.INVISIBLE);
+                holder.visualitzacioestat_view.setText("Cuinant");
+            }
+            else if (comanda.getEstat()==1) {
+                holder.background_view.setVisibility(View.VISIBLE);
+                holder.visualitzacioestat_view.setText("Per recollir");
             }
 
             int preuI=comanda.getPreu();

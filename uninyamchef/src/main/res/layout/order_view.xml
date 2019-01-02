@@ -3,8 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="130dp"
     tools:layout_editor_absoluteY="81dp">
+
+    <ImageView
+        android:id="@+id/background_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:color/darker_gray" />
 
     <TextView
         android:id="@+id/H_view"
@@ -30,8 +46,8 @@
 
     <TextView
         android:id="@+id/ingredientsburger_view"
-        android:layout_width="214dp"
-        android:layout_height="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/H_view"
@@ -40,8 +56,8 @@
 
     <TextView
         android:id="@+id/beguda_view"
-        android:layout_width="88dp"
-        android:layout_height="19dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/B_view"
@@ -61,8 +77,8 @@
 
     <TextView
         android:id="@+id/postre_view"
-        android:layout_width="88dp"
-        android:layout_height="17dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/P_view"
@@ -106,12 +122,11 @@
         android:id="@+id/euro_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="€"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hora_view" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/preu_view"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/preu_view"
@@ -120,7 +135,7 @@
         android:layout_marginEnd="2dp"
         android:layout_marginRight="2dp"
         android:text="6"
-        app:layout_constraintBaseline_toBaselineOf="@+id/euro_view"
+        app:layout_constraintBaseline_toBaselineOf="@+id/visualitzacioestat_view"
         app:layout_constraintEnd_toStartOf="@+id/euro_view" />
 
     <ImageView
@@ -129,13 +144,13 @@
         android:layout_height="1dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="6dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/postre_view"
         app:srcCompat="@android:color/darker_gray" />
 
     <TextView
@@ -147,5 +162,26 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/codi_view"
         app:layout_constraintStart_toEndOf="@+id/codi_view"
         tools:text="Daniel Monleón" />
+
+    <TextView
+        android:id="@+id/estat_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/Estat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/P_view" />
+
+    <TextView
+        android:id="@+id/visualitzacioestat_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="Cuinant"
+        app:layout_constraintBaseline_toBaselineOf="@+id/estat_view"
+        app:layout_constraintStart_toEndOf="@+id/estat_view" />
 
 </android.support.constraint.ConstraintLayout>

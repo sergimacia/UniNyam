@@ -4,5 +4,6 @@
     <string name="B" translatable="false">B:</string>
     <string name="P" translatable="false">P:</string>
     <string name="confirma">"Segur que vols esborrar la comanda"</string>
+    <string name="Estat" translatable="false">Estat:</string>
 
 </resources>
