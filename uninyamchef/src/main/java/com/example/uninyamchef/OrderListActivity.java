@@ -169,9 +169,9 @@ public class OrderListActivity extends AppCompatActivity {
 
     //Aquest mètode és cridat des de long-click. Elimina la comanda en qüestió.
     private void removeItem(int position) {
+        db.document("Comandes/"+ comandes.get(position).getComandaId()).delete();
         comandes.remove(position);
         adapter.notifyItemRemoved(position);
-        db.document("Comandes/"+ comandes.get(position).getComandaId()).delete();
     }
 
     class Adapter extends RecyclerView.Adapter<ViewHolder> {
@@ -189,7 +189,14 @@ public class OrderListActivity extends AppCompatActivity {
             holder.ingredientsburger_view.setText(comanda.getHamburguesa());
             holder.beguda_view.setText(comanda.getBeguda());
             holder.postre_view.setText(comanda.getPostres());
-
+            if(comanda.getBeguda().equals("Zumo") || comanda.getBeguda().equals("Juice")) comanda.setBeguda("Suc");
+            else if(comanda.getBeguda().equals("Water") || comanda.getBeguda().equals("Agua")) comanda.setBeguda("Aigua");
+            else if(comanda.getBeguda().equals("Orange Juice") || comanda.getBeguda().equals("Fanta de Naranja")) comanda.setBeguda("Fanta de Taronja");
+            else if(comanda.getBeguda().equals("Beer") || comanda.getBeguda().equals("Cerveza")) comanda.setBeguda("Cervesa");
+            if(comanda.getPostres().equals("Pie") || comanda.getPostres().equals("Pastel")) comanda.setPostres("Pastís");
+            if(comanda.getPostres().equals("Pie") || comanda.getPostres().equals("Pastel")) comanda.setPostres("Pastís");
+            else if(comanda.getPostres().equals("Fruit") || comanda.getPostres().equals("Fruta")) comanda.setPostres("Fruita");
+            else if(comanda.getPostres().equals("Ice Cream") || comanda.getPostres().equals("Helado")) comanda.setPostres("Gelat");
 
             Usuari usuari = usuaris.get(position);
             if (usuari != null) {

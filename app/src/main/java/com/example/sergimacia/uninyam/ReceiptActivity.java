@@ -22,6 +22,7 @@ public class ReceiptActivity extends AppCompatActivity {
     Comanda lamevacomanda;
     private int codi;
     private String ingredients;
+    private String hamburguesa;
     private TextView hamburguesa_view;
     private TextView beguda_view;
     private TextView postres_view;
@@ -69,6 +70,7 @@ public class ReceiptActivity extends AppCompatActivity {
         if (intent!= null){
             codi=intent.getIntExtra("codi",-1);
             ingredients=intent.getStringExtra("ingredients");
+            hamburguesa=intent.getStringExtra("hamburguesa");
         }
     }
 
@@ -77,6 +79,7 @@ public class ReceiptActivity extends AppCompatActivity {
     public void onBackPressed() {
         Toast.makeText(this, R.string.error3, Toast.LENGTH_SHORT).show();
     }
+
 
     @Override
     protected void onStart() {
@@ -108,13 +111,21 @@ public class ReceiptActivity extends AppCompatActivity {
                     estatescrit_view.setText(R.string.llesta);
                 }
 
-                //Omple la informació de la comanda.
-                if(!lamevacomanda.getHamburguesa().equals("no_burger")) hamburguesa_view.setText(lamevacomanda.getHamburguesa());
+                //Omple la informació textual de la comanda.
+                if(!lamevacomanda.getHamburguesa().equals("no_burger")) hamburguesa_view.setText(hamburguesa);
                 beguda_view.setText(lamevacomanda.getBeguda());
                 postres_view.setText(lamevacomanda.getPostres());
                 if(!lamevacomanda.getBeguda().equals("")) mida_view.setText(lamevacomanda.getMida());
 
                 //Carrega les imatges de la comanda.
+                if(lamevacomanda.getBeguda().equals("Zumo") || lamevacomanda.getBeguda().equals("Juice")) lamevacomanda.setBeguda("Suc");
+                else if(lamevacomanda.getBeguda().equals("Water") || lamevacomanda.getBeguda().equals("Agua")) lamevacomanda.setBeguda("Aigua");
+                else if(lamevacomanda.getBeguda().equals("Orange Juice") || lamevacomanda.getBeguda().equals("Fanta de Naranja")) lamevacomanda.setBeguda("Fanta de Taronja");
+                else if(lamevacomanda.getBeguda().equals("Beer") || lamevacomanda.getBeguda().equals("Cerveza")) lamevacomanda.setBeguda("Cervesa");
+                if(lamevacomanda.getPostres().equals("Pie") || lamevacomanda.getPostres().equals("Pastel")) lamevacomanda.setPostres("Pastís");
+                else if(lamevacomanda.getPostres().equals("Fruit") || lamevacomanda.getPostres().equals("Fruta")) lamevacomanda.setPostres("Fruita");
+                else if(lamevacomanda.getPostres().equals("Ice Cream") || lamevacomanda.getPostres().equals("Helado")) lamevacomanda.setPostres("Gelat");
+
                 updateImg(lamevacomanda.getBeguda(), beguda_icon2);
                 updateImg(lamevacomanda.getPostres(), postres_icon2);
                 if(!ingredients.equals("no_burger"))updateImg(ingredients, burguer_icon2);

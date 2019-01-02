@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private double data = 0, data_actual=0, data_escollida=0;
     private String ingredients="burger";
     private String hamburguesa="";
+    private String hamburguesa_idioma="";
     private String beguda="";
     private String mida="";
     private String postres="";
@@ -325,12 +326,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         if (checkbox_burger.isChecked()) {
                             preu += 4;
                             if (formatge_switch.isChecked()) {
+                                hamburguesa_idioma = hamburguesa_idioma + " " +formatge_switch.getText() + " ";
                                 hamburguesa = hamburguesa + " formatge ";
+
                             }
                             if (enciam_switch.isChecked()) {
+                                hamburguesa_idioma = hamburguesa_idioma + " " + enciam_switch.getText() + " ";
                                 hamburguesa = hamburguesa + " enciam ";
                             }
                             if (tomaquet_switch.isChecked()) {
+                                hamburguesa_idioma = hamburguesa_idioma + " " + tomaquet_switch.getText()+ " ";
                                 hamburguesa = hamburguesa + " tomaquet ";
                             }
                         }
@@ -391,6 +396,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                             Intent intent = new Intent(MainActivity.this, ReceiptActivity.class);
                             intent.putExtra("codi", codi);
                             intent.putExtra("ingredients", ingredients);
+                            intent.putExtra("hamburguesa", hamburguesa_idioma);
                             startActivityForResult(intent, ENVIA);
                         }
                     }

@@ -30,4 +30,5 @@
     <string name="llesta">Recoge tu pedido.</string>
     <string name="error4">No has introducido los datos correctamente.</string>
     <string name="error5">Ya lo tienes todo? Seguro que quieres enviar el pedido?</string>
+    <string name="confirma">Seguro que quieres eliminar la comanda</string>
 </resources>

@@ -74,4 +74,12 @@ public class Comanda {
     public void setComandaId(String comandaId) {
         this.comandaId = comandaId;
     }
+
+    public void setBeguda(String beguda) {
+        this.beguda = beguda;
+    }
+
+    public void setPostres(String postres) {
+        this.postres = postres;
+    }
 }

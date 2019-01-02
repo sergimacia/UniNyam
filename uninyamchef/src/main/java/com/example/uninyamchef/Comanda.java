@@ -74,4 +74,10 @@ public class Comanda {
         this.estat = estat;
     }
 
+    public void setBeguda(String beguda) { this.beguda = beguda; }
+
+    public void setPostres(String postres) { this.postres = postres; }
+
+    public void setHamburguesa(String hamburguesa) { this.hamburguesa = hamburguesa; }
+
 }

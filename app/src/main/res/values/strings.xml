@@ -39,4 +39,5 @@
         <item>L</item>
         <item>XL</item>
     </string-array>
+    <string name="confirma">Segur que vols eliminar la comanda</string>
 </resources>
