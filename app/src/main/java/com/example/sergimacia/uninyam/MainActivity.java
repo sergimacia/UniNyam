@@ -229,13 +229,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //Verifica si l'usuari ha triat o no hamburguesa.
         if(v==checkbox_burger){
-            if(!checkbox_burger.isChecked()) updateImg("burger", true, burguer_icon);
-            if(checkbox_burger.isChecked()) updateImg(ingredients, false, burguer_icon);
+            if(!checkbox_burger.isChecked()){
+                updateImg("burger", true, burguer_icon);
+                hamburguesa="no_burger";
+            }
+            if(checkbox_burger.isChecked()){
+                updateImg(ingredients, false, burguer_icon);
+                hamburguesa="";
+            }
 
             tomaquet_switch.setEnabled(checkbox_burger.isChecked());
             formatge_switch.setEnabled(checkbox_burger.isChecked());
             enciam_switch.setEnabled(checkbox_burger.isChecked());
-            hamburguesa="no_burger";
         }
 
         //Verifica si l'usuari ha triat o no beguda.

@@ -124,7 +124,7 @@ public class ReceiptActivity extends AppCompatActivity {
                 else if(lamevacomanda.getBeguda().equals("Beer") || lamevacomanda.getBeguda().equals("Cerveza")) lamevacomanda.setBeguda("Cervesa");
                 if(lamevacomanda.getPostres().equals("Pie") || lamevacomanda.getPostres().equals("Pastel")) lamevacomanda.setPostres("Pastís");
                 else if(lamevacomanda.getPostres().equals("Fruit") || lamevacomanda.getPostres().equals("Fruta")) lamevacomanda.setPostres("Fruita");
-                else if(lamevacomanda.getPostres().equals("Ice Cream") || lamevacomanda.getPostres().equals("Helado")) lamevacomanda.setPostres("Gelat");
+                else if(lamevacomanda.getPostres().equals("Ice cream") || lamevacomanda.getPostres().equals("Helado")) lamevacomanda.setPostres("Gelat");
 
                 updateImg(lamevacomanda.getBeguda(), beguda_icon2);
                 updateImg(lamevacomanda.getPostres(), postres_icon2);
